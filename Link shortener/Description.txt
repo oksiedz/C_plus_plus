@@ -1,0 +1,5 @@
+Kluczowe funkcjonalności:
+funkcjonalność weryfikująca (wyszukiwanie) czy wprowadzony URL znajduje się już w Bazie skróconych linków oraz pełnych linków (dopuszczalne będzie rozwiązanie, gdy wykorzystane do tego celu będą tablice, zdecydowanie lepiej oceniane będzie rozwiązanie oparte o operacje na plikach);
+funkcjonalność skracania wprowadzonego URL z wykorzystaniem słownika o podstawie 62 składającego się ze znaków {"0-9", "a-z", "A-Z"} (sam link skrótu powinien mieć 5 losowych znaków, np. goo.gl/R6axW);
+funkcjonalność zwracająca nowoutworzony, skrócony URL  (skrócony link nie może się powtarzać - unikalność);
+funkcjonalność wyświetlająca stan (pełną zawartość) Bazy czyli skrótów oraz pełnych linków;
