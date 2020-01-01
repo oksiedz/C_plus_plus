@@ -3,3 +3,5 @@ funkcjonalność weryfikująca (wyszukiwanie) czy wprowadzony URL znajduje się 
 funkcjonalność skracania wprowadzonego URL z wykorzystaniem słownika o podstawie 62 składającego się ze znaków {"0-9", "a-z", "A-Z"} (sam link skrótu powinien mieć 5 losowych znaków, np. goo.gl/R6axW);
 funkcjonalność zwracająca nowoutworzony, skrócony URL  (skrócony link nie może się powtarzać - unikalność);
 funkcjonalność wyświetlająca stan (pełną zawartość) Bazy czyli skrótów oraz pełnych linków;
+
+Plik exe oraz baza danych muszą być w jednym folderze.
