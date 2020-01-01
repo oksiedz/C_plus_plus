@@ -12,7 +12,7 @@ int main(int argc, char** argv) {
 fstream file; /*variable for opened file*/
 file.open("shortened_links.txt", ios::in | ios::out); /*opening the file*/
 /*counter for number of rows - if data base still have space*/
-long number_of_rows_in_the_file=0;
+long number_of_rows_in_the_file = 0;
 string line_to_counter;
 while (!file.eof())
 	{
@@ -45,7 +45,7 @@ if(file.good() == true && number_of_rows_in_the_file < 916132833) /*if the file 
 				string input_link;
 				cin >> input_link;
 				/*checking if the inputted link is already existing*/
-				int link_already_shortened=0;
+				int link_already_shortened = 0;
 				string line1;
 				while (getline(file, line1))
 					{
@@ -54,7 +54,7 @@ if(file.good() == true && number_of_rows_in_the_file < 916132833) /*if the file 
 						if (!(loop1 >> long_link1 >> short_link1)) {break;}
 						if (long_link1 == input_link)
 							{
-								link_already_shortened=1;
+								link_already_shortened = 1;
 								cout << "Link which you have inputted " << long_link1 << " was already shortened to scinacz.pl/" << short_link1 << endl;
 							}
 					}
@@ -68,9 +68,9 @@ if(file.good() == true && number_of_rows_in_the_file < 916132833) /*if the file 
 								/*creation of short link*/
 								string slownik_znakow = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 								string shortened_link = "";
-								for (int i=0; i < 5; i ++)
+								for (int i = 0; i < 5; i ++)
 									{
-										if (i ==0)
+										if (i == 0)
 											{
 												shortened_link = "00000";
 											}
