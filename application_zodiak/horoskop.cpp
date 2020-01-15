@@ -114,14 +114,42 @@ string f_OdgadnijDzienUrodzin ( int v_day, int v_mount, int v_year )
     mktime( data );
     return dzien_tygodnia[ data->tm_wday ];
 }
+//-------------------------------------------------------------------------------------
+bool f_CzyPoprawneImie ( string v_name )
 
+{ 	
+	int vl_NameLength, i, j, vl_ZnalezionaLiterka=0;
+	char tl_ZbiorZnakow[53]={"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"};
+	
+	vl_NameLength = v_name.length();
+	//cout<<"vl_NameLength"<<vl_NameLength<<endl;
+	for (i=0; i<vl_NameLength; i++)
+	{	
+		//cout<<"litera : "<< v_name[i] <<endl;
+		for (j=0; j<52; j++)
+		{	
+			if (v_name[i] == tl_ZbiorZnakow[j])
+			{	cout<<"literka : "<< tl_ZbiorZnakow[j] <<endl;
+				vl_ZnalezionaLiterka++;
+				exit;}
+		}
+	}
+	//cout<<"vl_ZnalezionaLiterka: "<<vl_ZnalezionaLiterka<<endl;
+	if (v_name.length() == vl_ZnalezionaLiterka)
+		{	//getch();
+			return true;
+		}	
+	else
+		{count<< "Wpisane imie jest niepoprawne. Sprobuj jeszcze raz."}
+return false;	
+}
 
 //-------------------------------------------------------------------------------------
 int f_PodajDane ()
 {
 	int v_day, v_mount, v_year;
 	bool v_czyPoprawneDane = false;
-	string v_imie, v_dzienUrodzin;
+	string v_name, v_dzienUrodzin;
 	
 	do
 	{ 	cin.clear();
@@ -161,17 +189,18 @@ int f_PodajDane ()
 	{ 	cin.clear();
 		cin.sync();
 		cout<<"Podaj imie" <<endl;
-		cin>>v_imie;
-		//v_czyPoprawneDane = f_Czyimie( v_imie) ;	//tu powinno byc wywolanie funkcji do walidacji imienia czy np. user nie wpisal 1234... pamietaj ze jest cos takiego jak zakres ... (w przypadku skracania linkow bylo to uzywane.)
+		cin>>v_name;
+		v_czyPoprawneDane = f_CzyPoprawneImie( v_name) ;	//tu powinno byc wywolanie funkcji do walidacji imienia czy np. user nie wpisal 1234... pamietaj ze jest cos takiego jak zakres ... (w przypadku skracania linkow bylo to uzywane.)
 		//dodalbym jeszcze initcap-a niezaleznie od tego co user wpisal.
 	} while (v_czyPoprawneDane== false);
 
 	v_dzienUrodzin = f_OdgadnijDzienUrodzin(v_day, v_mount, v_year);
     
-	cout << "Czesc "<< v_imie <<". "<<endl;
+	cout << "Czesc "<< v_name <<". "<<endl;
 	cout << "Data Twoich narodzin to: " <<v_day<<"/"<<v_mount<<"/"<<v_year<<endl;
 	cout << "Dzien twoich urodzin to: " << v_dzienUrodzin <<endl;
     
+    cout << "Press any key to continue... " <<endl;
     getch();
 }
 
