@@ -247,7 +247,7 @@ int f_OkreslPlec(string v_name, char v_gender)
 	imie_plec.close();
 	imie_plec.open("imie_plec.txt", ios::in | ios::out | ios::app);
 	imie_plec.seekg (0, ios::end);
-	if (liczba_wierszy == 0 || v_gender == 'B')
+	if ((liczba_wierszy == 0 || v_gender == 'B') && plec_z_petli == 0)
 	{
 		v_gender = f_SprawdzPlec(v_name);
 		v_gender = f_PotwierdzPlec(v_name, v_gender);
@@ -319,7 +319,25 @@ string f_Zodiak(int v_day, int v_mount)
 		}
 }
 /*znak zodiaku*/
+/*link do horoskopu*/
+string f_HoroskopLink (string v_zodiac)
+{
+	string url = "https://www.horoskop360.pl/horoskop-";
+	string url_part2 = v_zodiac;
+	url_part2[0] = tolower(url_part2[0]);
+	return url + url_part2;
+}
 
+int f_OtworzLinkHoroskop (string v_zodiac)
+{
+	string v_url;
+	v_url = f_HoroskopLink(v_zodiac);
+	ShellExecuteA(NULL, "open", v_url.c_str(), NULL, NULL, SW_SHOWNORMAL);
+	return 0;
+}
+/*link do horoskopu*/
+/*wyznaczanie fazy ksiezyca w dniu urodzin*/
+/*wyznaczanie fazy ksiezyca w dniu urodzin*/
 //-------------------------------------------------------------------------------------
 int f_PodajDane ()
 {
@@ -385,6 +403,10 @@ int f_PodajDane ()
 	if(v_gender == 'K'){cout << "Kobieta";} else {cout << "Mezczyzna";};
 	cout << endl;
 	cout << "Twoj znak zodiaku to: " << v_zodiac << endl;
+	cout << "Link do Twojego horoskopu: " << f_HoroskopLink(v_zodiac) << " otworzy sie w przegladarce."<< endl;
+	cout << "Press any key to continue... " <<endl;
+	getch();
+	f_OtworzLinkHoroskop(v_zodiac);
 
 	cout << "Press any key to continue... " <<endl;
 	getch();
