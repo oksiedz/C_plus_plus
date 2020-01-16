@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <cstdlib>
 #include <windows.h> 
+#include <sstream>
 
 using namespace std;
 
@@ -115,7 +116,65 @@ string f_OdgadnijDzienUrodzin ( int v_day, int v_mount, int v_year )
     return dzien_tygodnia[ data->tm_wday ];
 }
 
-int f_OtworzPlecPlik()
+/*wyznaczanie plci*/
+char f_SprawdzPlec (string v_imie)
+{
+	if (v_imie[v_imie.length() - 1] == 'a')
+		{
+			return 'K';
+		}
+	else
+		{
+			return 'M';
+		};
+}
+
+int f_WyjsciePetla ()
+{
+	return 1;
+}
+
+char f_ZmienPlec(char v_plec)
+{
+	if (v_plec == 'K')
+		{
+			return 'M';
+		}
+	else
+		{
+			return 'K';
+		};
+}
+
+char f_PotwierdzPlec(string v_imie, char v_plec)
+{
+	int potwierdzenie_plci;
+	do 
+	{
+	cin.clear();
+	cin.sync();
+	system("cls");
+	cout << v_imie << ", jezeli Twoja plec to: " << v_plec << ", to wybierz 1, w przeciwnym wypadku wybierz 2." << endl;
+	cin >> potwierdzenie_plci;
+	switch (potwierdzenie_plci)
+		{
+			case 1:
+				f_WyjsciePetla ();
+				break;
+			case 2:
+				f_WyjsciePetla ();
+				v_plec = f_ZmienPlec(v_plec);
+				break;
+			default:
+				cout << "Wybierz jeden lub dwa."<< endl << flush;
+				Sleep(750);
+				break;
+		}
+	} while (potwierdzenie_plci != 1 && potwierdzenie_plci != 2);
+	return v_plec;
+}
+
+int f_OkreslPlec(string v_imie, char v_plec)
 {
 	fstream imie_plec;
 	imie_plec.open("imie_plec.txt", ios::in | ios::out | ios::app);
@@ -137,59 +196,47 @@ int f_OtworzPlecPlik()
 	imie_plec.open("imie_plec.txt", ios::in | ios::out);
 	imie_plec.clear();
 	imie_plec.seekg (0, ios::beg);
-	return liczba_wierszy;
-}
-
-int f_ZamkniPlecPlik()
-{
-	fstream imie_plec;
+	int plec_z_petli = 0;
+	if (liczba_wierszy != 0)
+	{
+		string imie_petla;
+		char plec_petla;
+		string linia_petla;
+		while (getline(imie_plec,linia_petla))
+			{
+				istringstream iss(linia_petla);
+				if (!(iss >> imie_petla >> plec_petla)) {break;}
+				if (v_imie == imie_petla)
+					{
+						v_plec = plec_petla;
+						plec_z_petli = 1;
+					}
+				else
+					{
+						v_plec = 'B';
+					};
+			};
+	};
 	imie_plec.close();
-	return 0;
-}
-
-char f_SprawdzPlec (string v_name)
-{
-	if (v_name[v_name.length() - 1] == 'a')
+	imie_plec.open("imie_plec.txt", ios::in | ios::out | ios::app);
+	imie_plec.seekg (0, ios::end);
+	if (liczba_wierszy == 0 || v_plec == 'B')
+	{
+		v_plec = f_SprawdzPlec(v_imie);
+		v_plec = f_PotwierdzPlec(v_imie, v_plec);
+		if (liczba_wierszy == 0)
 		{
-			return 'K';
+			imie_plec << v_imie << " " << v_plec;
 		}
-	else
+		else
 		{
-			return 'M';
+			imie_plec << endl << v_imie << " " << v_plec;
 		};
+		
+	};
+	return v_plec;
 }
-
-char f_PotwierdzPlec (string v_name)
-{
-	int v_potwierdz;
-	f_OtworzPlecPlik();
-	if(f_OtworzPlecPlik() != 0)
-		{
-			string imie_petla;
-			char plec_petla;
-			string linia_petla;
-			while (getline(imie_plec,linia_petla))
-				{
-					isstringstream petla1(linia_petla);
-					if (!(petla1 >> imie_petla >> plec_petla)) {break;}
-					if (v_name == imie_petla)
-						{
-							v_plec=plec_petla;
-						}
-				};
-			
-			 
-			 f_PotwierdzPlec(v_name);		
-		}
-	
-	return f_SprawdzPlec(v_name);
-	
-}
-
-char f_OkreslPlec (string v_name)
-{
-	return f_PotwierdzPlec(v_name);
-}
+/*wyznaczanie plci*/
 
 //-------------------------------------------------------------------------------------
 int f_PodajDane ()
@@ -243,7 +290,7 @@ int f_PodajDane ()
 	} while (v_czyPoprawneDane== false);
 
 	v_dzienUrodzin = f_OdgadnijDzienUrodzin(v_day, v_mount, v_year);
-    v_plec = f_OkreslPlec(v_imie);
+    v_plec = f_OkreslPlec(v_imie, v_plec);
 	cout << "Czesc "<< v_imie <<". "<<endl;
 	cout << "Data Twoich narodzin to: " <<v_day<<"/"<<v_mount<<"/"<<v_year<<endl;
 	cout << "Dzien twoich urodzin to: " << v_dzienUrodzin <<endl;
