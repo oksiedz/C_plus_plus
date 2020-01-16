@@ -115,6 +115,81 @@ string f_OdgadnijDzienUrodzin ( int v_day, int v_mount, int v_year )
     return dzien_tygodnia[ data->tm_wday ];
 }
 
+int f_OtworzPlecPlik()
+{
+	fstream imie_plec;
+	imie_plec.open("imie_plec.txt", ios::in | ios::out | ios::app);
+	int liczba_wierszy = 1;
+	string linia_do_licznika;
+	if (getline(imie_plec,linia_do_licznika))
+		{
+			while(!imie_plec.eof())
+				{
+					getline(imie_plec, linia_do_licznika);
+					liczba_wierszy++;	
+				}	
+		}
+	else
+		{
+			liczba_wierszy = 0;
+		}
+	imie_plec.close();
+	imie_plec.open("imie_plec.txt", ios::in | ios::out);
+	imie_plec.clear();
+	imie_plec.seekg (0, ios::beg);
+	return liczba_wierszy;
+}
+
+int f_ZamkniPlecPlik()
+{
+	fstream imie_plec;
+	imie_plec.close();
+	return 0;
+}
+
+char f_SprawdzPlec (string v_name)
+{
+	if (v_name[v_name.length() - 1] == 'a')
+		{
+			return 'K';
+		}
+	else
+		{
+			return 'M';
+		};
+}
+
+char f_PotwierdzPlec (string v_name)
+{
+	int v_potwierdz;
+	f_OtworzPlecPlik();
+	if(f_OtworzPlecPlik() != 0)
+		{
+			string imie_petla;
+			char plec_petla;
+			string linia_petla;
+			while (getline(imie_plec,linia_petla))
+				{
+					isstringstream petla1(linia_petla);
+					if (!(petla1 >> imie_petla >> plec_petla)) {break;}
+					if (v_name == imie_petla)
+						{
+							v_plec=plec_petla;
+						}
+				};
+			
+			 
+			 f_PotwierdzPlec(v_name);		
+		}
+	
+	return f_SprawdzPlec(v_name);
+	
+}
+
+char f_OkreslPlec (string v_name)
+{
+	return f_PotwierdzPlec(v_name);
+}
 
 //-------------------------------------------------------------------------------------
 int f_PodajDane ()
@@ -122,6 +197,7 @@ int f_PodajDane ()
 	int v_day, v_mount, v_year;
 	bool v_czyPoprawneDane = false;
 	string v_imie, v_dzienUrodzin;
+	char v_plec;
 	
 	do
 	{ 	cin.clear();
@@ -167,11 +243,13 @@ int f_PodajDane ()
 	} while (v_czyPoprawneDane== false);
 
 	v_dzienUrodzin = f_OdgadnijDzienUrodzin(v_day, v_mount, v_year);
-    
+    v_plec = f_OkreslPlec(v_imie);
 	cout << "Czesc "<< v_imie <<". "<<endl;
 	cout << "Data Twoich narodzin to: " <<v_day<<"/"<<v_mount<<"/"<<v_year<<endl;
 	cout << "Dzien twoich urodzin to: " << v_dzienUrodzin <<endl;
-    
+    cout << "Twoja plec to: ";
+	if(v_plec == 'K'){cout << "Kobieta";} else {cout << "Mezczyzna";};
+	cout << endl;
     getch();
 }
 
@@ -207,6 +285,7 @@ int main()
 		{
 			exit(0);
 		}
+	
 	} while (v_znak!='1');
 
 	do
