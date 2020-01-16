@@ -145,9 +145,9 @@ return false;
 }
 //-------------------------------------------------------------------------------------
 /*wyznaczanie plci*/
-char f_SprawdzPlec (string v_imie)
+char f_SprawdzPlec (string v_name)
 {
-	if (v_imie[v_imie.length() - 1] == 'a')
+	if (v_name[v_name.length() - 1] == 'a')
 		{
 			return 'K';
 		}
@@ -174,7 +174,7 @@ char f_ZmienPlec(char v_plec)
 		};
 }
 //-------------------------------------------------------------------------------------
-char f_PotwierdzPlec(string v_imie, char v_plec)
+char f_PotwierdzPlec(string v_name, char v_plec)
 {
 	int potwierdzenie_plci;
 	do 
@@ -182,7 +182,7 @@ char f_PotwierdzPlec(string v_imie, char v_plec)
 	cin.clear();
 	cin.sync();
 	system("cls");
-	cout << v_imie << ", jezeli Twoja plec to: " << v_plec << ", to wybierz 1, w przeciwnym wypadku wybierz 2." << endl;
+	cout << v_name << ", jezeli Twoja plec to: " << v_plec << ", to wybierz 1, w przeciwnym wypadku wybierz 2." << endl;
 	cin >> potwierdzenie_plci;
 	switch (potwierdzenie_plci)
 		{
@@ -202,7 +202,7 @@ char f_PotwierdzPlec(string v_imie, char v_plec)
 	return v_plec;
 }
 //-------------------------------------------------------------------------------------
-int f_OkreslPlec(string v_imie, char v_plec)
+int f_OkreslPlec(string v_name, char v_plec)
 {
 	fstream imie_plec;
 	imie_plec.open("imie_plec.txt", ios::in | ios::out | ios::app);
@@ -234,7 +234,7 @@ int f_OkreslPlec(string v_imie, char v_plec)
 			{
 				istringstream iss(linia_petla);
 				if (!(iss >> imie_petla >> plec_petla)) {break;}
-				if (v_imie == imie_petla)
+				if (v_name == imie_petla)
 					{
 						v_plec = plec_petla;
 						plec_z_petli = 1;
@@ -250,15 +250,15 @@ int f_OkreslPlec(string v_imie, char v_plec)
 	imie_plec.seekg (0, ios::end);
 	if (liczba_wierszy == 0 || v_plec == 'B')
 	{
-		v_plec = f_SprawdzPlec(v_imie);
-		v_plec = f_PotwierdzPlec(v_imie, v_plec);
+		v_plec = f_SprawdzPlec(v_name);
+		v_plec = f_PotwierdzPlec(v_name, v_plec);
 		if (liczba_wierszy == 0)
 		{
-			imie_plec << v_imie << " " << v_plec;
+			imie_plec << v_name << " " << v_plec;
 		}
 		else
 		{
-			imie_plec << endl << v_imie << " " << v_plec;
+			imie_plec << endl << v_name << " " << v_plec;
 		};
 		
 	};
@@ -319,7 +319,7 @@ int f_PodajDane ()
 	} while (v_czyPoprawneDane== false);
 
 	v_dzienUrodzin = f_OdgadnijDzienUrodzin(v_day, v_mount, v_year);
-    v_plec = f_OkreslPlec(v_imie, v_plec);
+    v_plec = f_OkreslPlec(v_name, v_plec);
     
 	cout << "Czesc "<< v_name <<". "<<endl;
 	cout << "Data Twoich narodzin to: " <<v_day<<"/"<<v_mount<<"/"<<v_year<<endl;
