@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <windows.h>
 #include <sstream>
+#include <cmath>
 
 using namespace std;
 
@@ -380,6 +381,12 @@ int f_OtworzLinkHoroskop (string v_zodiac)
 	return 0;
 }
 /*link do horoskopu*/
+/*przeliczanie daty na kalendarz julianski*/
+double f_NaKalendarzJulianski(int v_day, int v_mount, int v_year)
+{
+	return (1729279.5 + 367 * v_year + floor(275 * v_mount / 9) - floor(7 * (4716 + v_year + floor((v_mount + 9) / 12)) / 4) + v_day) + 38 - floor(3 * (floor((4716 + v_year + floor((v_mount + 9) / 12) + 83) / 100) + 1) /4);
+}
+/*przeliczanie daty na kalendarz julianski*/
 /*wyznaczanie fazy ksiezyca w dniu urodzin*/
 /*wyznaczanie fazy ksiezyca w dniu urodzin*/
 //-------------------------------------------------------------------------------------
