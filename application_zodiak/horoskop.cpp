@@ -221,10 +221,22 @@ char f_PotwierdzPlec(string v_name, char v_gender)
 	return v_gender;
 }
 //-------------------------------------------------------------------------------------
-int f_OkreslPlec(string v_name, char v_gender)
+int f_SlownikImiePlecCzyIstnieje()
 {
 	fstream imie_plec;
-	imie_plec.open("imie_plec.txt", ios::in | ios::out | ios::app);
+	imie_plec.open("imie_plec.txt", ios::in);
+	if (imie_plec.good() == false)
+		{
+			imie_plec.open("imie_plec.txt", ios::out | ios::app); 
+		};
+	imie_plec.close();
+	return 0;
+}
+
+int f_SlownikImiePlecIleLini()
+{
+	fstream imie_plec;
+	imie_plec.open("imie_plec.txt", ios::in);
 	int liczba_wierszy = 1;
 	string linia_do_licznika;
 	if (getline(imie_plec,linia_do_licznika))
@@ -240,45 +252,57 @@ int f_OkreslPlec(string v_name, char v_gender)
 			liczba_wierszy = 0;
 		}
 	imie_plec.close();
-	imie_plec.open("imie_plec.txt", ios::in | ios::out);
-	imie_plec.clear();
-	imie_plec.seekg (0, ios::beg);
-	int plec_z_petli = 0;
-	if (liczba_wierszy != 0)
-	{
-		string imie_petla;
-		char plec_petla;
-		string linia_petla;
-		while (getline(imie_plec,linia_petla))
-			{
-				istringstream iss(linia_petla);
-				if (!(iss >> imie_petla >> plec_petla)) {break;}
-				if (v_name == imie_petla)
-					{
-						v_gender = plec_petla;
-						plec_z_petli = 1;
-					}
-				else
-					{
-						v_gender = 'B';
-					};
-			};
-	};
+	return liczba_wierszy;
+}
+
+char f_CzyImieWSlownikuImiePlec(string v_name, char v_gender,int v_plecslownik)
+{
+	fstream imie_plec;
+	imie_plec.open ("imie_plec.txt", ios::in);
+	string imie_petla;
+	char plec_petla;
+	string linia_petla;
+	while (getline(imie_plec,linia_petla))
+		{
+			istringstream iss(linia_petla);
+			if (!(iss >> imie_petla >> plec_petla)) {break;}
+			if (v_name == imie_petla)
+				{
+					v_gender = plec_petla;
+					v_plecslownik = 1;
+				}
+			else
+				{
+					v_gender = 'B';
+				};
+		};
 	imie_plec.close();
-	imie_plec.open("imie_plec.txt", ios::in | ios::out | ios::app);
-	imie_plec.seekg (0, ios::end);
-	if ((liczba_wierszy == 0 || v_gender == 'B') && plec_z_petli == 0)
+	return v_gender;
+}
+
+int f_ZapiszImiePlecDoSlownika (string v_name, char v_gender)
+{
+	fstream imie_plec;
+    imie_plec.open("imie_plec.txt", ios::out | ios::app);
+    imie_plec << v_name <<" "<< v_gender <<endl;
+	imie_plec.flush();
+    imie_plec.close();
+    return 0;
+}
+
+int f_OkreslPlec(string v_name, char v_gender)
+{
+	int v_plecslownik = 0;
+	f_SlownikImiePlecCzyIstnieje();
+	if (f_SlownikImiePlecIleLini() != 0)
+	{
+		v_gender = f_CzyImieWSlownikuImiePlec(v_name, v_gender, 0);
+	};
+	if ((f_SlownikImiePlecIleLini() == 0 || v_gender == 'B') && v_plecslownik == 0)
 	{
 		v_gender = f_SprawdzPlec(v_name);
 		v_gender = f_PotwierdzPlec(v_name, v_gender);
-		if (liczba_wierszy == 0)
-		{
-			imie_plec << v_name << " " << v_gender;
-		}
-		else
-		{
-			imie_plec << endl << v_name << " " << v_gender;
-		};
+		f_ZapiszImiePlecDoSlownika(v_name, v_gender);
 	};
 	return v_gender;
 }
@@ -336,7 +360,7 @@ string f_Zodiak(int v_day, int v_mount)
 				if (v_day < 22) {return "Strzelec";}
 				else{return "Koziorozec";};
 				break;
-		}
+		};
 }
 /*znak zodiaku*/
 /*link do horoskopu*/
@@ -420,7 +444,7 @@ void f_PodajDane ()
 	pFunboy->nazwa_dnia_urodzenia=v_dzienUrodzin;
 	pFunboy->znak_zodiaku=v_zodiac;
 	pFunboy->plec=v_gender;
-	pFunboy->horoskop_link="brakuje mi funkcji, ktora zwraca link do horoskopu. chce go zapisac do bazy w pliku zodiak.txt";
+	pFunboy->horoskop_link=f_HoroskopLink(v_zodiac);
 	
 	cin.clear();
 	cin.sync();
