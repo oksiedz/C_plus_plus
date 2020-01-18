@@ -7,8 +7,24 @@
 #include <cstdlib>
 #include <windows.h>
 #include <sstream>
+#include <cmath>
 
 using namespace std;
+
+class Cechy
+{ public:
+	string imie;
+	int rok_urodzenia;
+	int miesiac_urodzenia;
+	int dzien_urodzenia;
+	string nazwa_dnia_urodzenia;
+	string znak_zodiaku;
+	char plec;
+	string horoskop_link;
+};
+
+Cechy Funboy; //obiekt Funboy opisany przez klase Cechy
+Cechy *pFunboy; //deklaracja wskaznika do obiektu
 
 //-------------------------------------------------------------------------------------
 bool f_CzyJestYearUrodzenia ( int v_year )
@@ -16,8 +32,8 @@ bool f_CzyJestYearUrodzenia ( int v_year )
 int vl_length=0, vl_rok	= v_year;
 	SYSTEMTIME st;
 	GetSystemTime(&st);
-	cout << "Podany rok to " << v_year<< endl;
-	cout << "Biezacy rok to " << st.wYear<< endl;
+	//cout << "Podany rok to " << v_year<< endl;
+	//cout << "Biezacy rok to " << st.wYear<< endl;
 	cin.clear();
 	cin.sync();
 	//sprawdzam z ilu cyfr sklada sie liczba v_year
@@ -26,19 +42,15 @@ int vl_length=0, vl_rok	= v_year;
 		vl_length++;
 	} while (vl_rok > 0);
 
-	if (v_year		>	st.wYear 	//jesli podany rok jest wiekszy niz biezacy rok
-		|| st.wYear-100	>	v_year		//lub jesli biezacy rok - 100 lat jest wiekszy niz podany rok
+	if (v_year		>	st.wYear 		//jesli podany rok jest wiekszy niz biezacy rok
+		|| st.wYear-150	>	v_year		//lub jesli biezacy rok - 150 lat jest wiekszy niz podany rok
 		|| vl_length	!=	4)			//lub ilosc cyfr w roku jest <> 4 
-		{	cout<< "Podales niewlasciwy rok urodzenia. Sprobuj jeszcze raz" << endl;
-			cout << "Podany rok to: " << v_year<< endl;
-			cout << "dlugosc liczby:" <<vl_length<< endl;
+		{	cout<< "Podales niewlasciwy rok urodzenia. Sprobuj jeszcze raz." << endl;
 			getch();
 			return false;
 		}
-	else if (v_year == st.wYear ) //jesli podany rok jest rowny biezacemu
+	else if (v_year == st.wYear ) 		//jesli podany rok jest rowny biezacemu
 		{	cout<< "Jetes za mlody na korzystanie z komputera." << endl;
-			//cout << "Podany rok to " << v_year<< endl;
-			//cout << "Biezacy rok to " << st.wYear<< endl;
 			getch();
 			exit(0);
 			return false;
@@ -49,7 +61,7 @@ int vl_length=0, vl_rok	= v_year;
 bool f_CzyJestMountUrodzenia ( int v_mount  )
 {	cin.clear();
 	cin.sync();
-	if (v_mount>12 || v_mount<1) //jesli podany miesiac nie istnieje
+	if (v_mount>12 || v_mount<1) 		//jesli podany miesiac nie istnieje
 		{ 	cout<< "Podales niewlasciwy miesiac urodzenia. Sprobuj jeszcze raz" << endl;
 			getch();
 			return false;
@@ -60,42 +72,43 @@ bool f_CzyJestMountUrodzenia ( int v_mount  )
 //-------------------------------------------------------------------------------------
 bool f_CzyJestDayUrodzenia ( int v_day, int v_mount, int v_year )
 {
-	int vl_max_day, i;
+	int vl_max_day, i=0;
 	int vl_tab_31[7]={1,3,5,7,8,10,12};
 	int vl_tab_30[4]={4,6,9,11};
 	int vl_tab_28[1]={2};
 
 	cin.clear();
 	cin.sync();
-
-	cout<<"dni: 	"	<<v_day		<<endl;
-	cout<<"miesiac: "	<<v_mount	<<endl;
-	cout<<"rok: 	"	<<v_year	<<endl;
-
+	
 	//jesli miesiac to luty
-	if (v_mount=2 )
+	if (v_mount==2 )
 	{	//okreslenie czy rok byl przestepny
 		if((v_year%4==0 && !(v_year%100==0)) || (v_year%400==0))
 			{vl_max_day = 29;}
 		else
-			{vl_max_day = 28;
-			 cout<< "ilosc dni w lutym: "<<vl_max_day<<endl;}
+			{vl_max_day = 28;}
 
 		for( i=0; i < sizeof(vl_tab_28)/sizeof(int); i++)
-		if( vl_tab_28[i] == v_mount && (v_day>0 && v_day<vl_max_day+1))
-						return true;
+		{	if( vl_tab_28[i] == v_mount && (v_day>0 && v_day<vl_max_day+1))
+				return true;	
+			else
+				cout<< "W roku "<<v_year<<" ilosc dni w lutym wynosila: "<<vl_max_day<<endl;
+		}
 	}
 	else
-		// jesli miesiac ma 31 dni
+	{	//cout<<"jesli miesiac ma 31 dni"<<endl;
 		for( i=0; i < sizeof(vl_tab_31)/sizeof(int); i++)
-		if( vl_tab_28[i] == v_mount && (v_day>0 && v_day<31+1))
-				return true;
-		else
-		{//jesli miesiac ma 30 dni
-			for( i=0; i < sizeof(vl_tab_30)/sizeof(int); i++)
-			if( vl_tab_28[i] == v_mount && (v_day>0 && v_day<30+1))
-			return true;
+		{	if( vl_tab_31[i] == v_mount && (v_day>0 && v_day<32))
+				{	//cout<<"i: "<< i <<" "<<vl_tab_31[i]<<"v_mount"<<v_day<<endl;
+					return true; }
 		}
+		//cout<<"jesli miesiac ma 30 dni"<<endl;
+		for( i=0; i < sizeof(vl_tab_30)/sizeof(int); i++)
+		{	if( vl_tab_30[i] == v_mount && (v_day>0 && v_day<31))
+			{	//cout<<"i: "<< i <<" "<<vl_tab_30[i]<<"v_mount"<<v_day<<endl;
+				return true;}
+		}
+	}
 	return false;
 }
 //-------------------------------------------------------------------------------------
@@ -128,7 +141,7 @@ bool f_CzyPoprawneImie ( string v_name )
 		for (j=0; j<52; j++)
 		{	
 			if (v_name[i] == tl_ZbiorZnakow[j])
-			{	cout<<"literka : "<< tl_ZbiorZnakow[j] <<endl;
+			{	//cout<<"literka : "<< tl_ZbiorZnakow[j] <<endl;
 				vl_ZnalezionaLiterka++;
 				exit;}
 		}
@@ -141,6 +154,14 @@ bool f_CzyPoprawneImie ( string v_name )
 	else
 		{cout<< "Wpisane imie jest niepoprawne. Sprobuj jeszcze raz.";}
 return false;
+}
+//-------------------------------------------------------------------------------------
+string f_ImieInitCap ( string v_name )
+{ 	
+	string lv_name = v_name;
+	lv_name[0] = toupper(lv_name[0]);
+	//v_name=lv_name;
+return lv_name;
 }
 //-------------------------------------------------------------------------------------
 /*wyznaczanie plci*/
@@ -160,7 +181,7 @@ int f_WyjsciePetla ()
 {
 	return 1;
 }
-
+//-------------------------------------------------------------------------------------
 char f_ZmienPlec(char v_gender)
 {
 	if (v_gender == 'K')
@@ -201,10 +222,22 @@ char f_PotwierdzPlec(string v_name, char v_gender)
 	return v_gender;
 }
 //-------------------------------------------------------------------------------------
-int f_OkreslPlec(string v_name, char v_gender)
+int f_SlownikImiePlecCzyIstnieje()
 {
 	fstream imie_plec;
-	imie_plec.open("imie_plec.txt", ios::in | ios::out | ios::app);
+	imie_plec.open("imie_plec.txt", ios::in);
+	if (imie_plec.good() == false)
+		{
+			imie_plec.open("imie_plec.txt", ios::out | ios::app); 
+		};
+	imie_plec.close();
+	return 0;
+}
+
+int f_SlownikImiePlecIleLini()
+{
+	fstream imie_plec;
+	imie_plec.open("imie_plec.txt", ios::in);
 	int liczba_wierszy = 1;
 	string linia_do_licznika;
 	if (getline(imie_plec,linia_do_licznika))
@@ -220,45 +253,57 @@ int f_OkreslPlec(string v_name, char v_gender)
 			liczba_wierszy = 0;
 		}
 	imie_plec.close();
-	imie_plec.open("imie_plec.txt", ios::in | ios::out);
-	imie_plec.clear();
-	imie_plec.seekg (0, ios::beg);
-	int plec_z_petli = 0;
-	if (liczba_wierszy != 0)
-	{
-		string imie_petla;
-		char plec_petla;
-		string linia_petla;
-		while (getline(imie_plec,linia_petla))
-			{
-				istringstream iss(linia_petla);
-				if (!(iss >> imie_petla >> plec_petla)) {break;}
-				if (v_name == imie_petla)
-					{
-						v_gender = plec_petla;
-						plec_z_petli = 1;
-					}
-				else
-					{
-						v_gender = 'B';
-					};
-			};
-	};
+	return liczba_wierszy;
+}
+
+char f_CzyImieWSlownikuImiePlec(string v_name, char v_gender,int v_plecslownik)
+{
+	fstream imie_plec;
+	imie_plec.open ("imie_plec.txt", ios::in);
+	string imie_petla;
+	char plec_petla;
+	string linia_petla;
+	while (getline(imie_plec,linia_petla))
+		{
+			istringstream iss(linia_petla);
+			if (!(iss >> imie_petla >> plec_petla)) {break;}
+			if (v_name == imie_petla)
+				{
+					v_gender = plec_petla;
+					v_plecslownik = 1;
+				}
+			else
+				{
+					v_gender = 'B';
+				};
+		};
 	imie_plec.close();
-	imie_plec.open("imie_plec.txt", ios::in | ios::out | ios::app);
-	imie_plec.seekg (0, ios::end);
-	if (liczba_wierszy == 0 || v_gender == 'B')
+	return v_gender;
+}
+
+int f_ZapiszImiePlecDoSlownika (string v_name, char v_gender)
+{
+	fstream imie_plec;
+    imie_plec.open("imie_plec.txt", ios::out | ios::app);
+    imie_plec << v_name <<" "<< v_gender <<endl;
+	imie_plec.flush();
+    imie_plec.close();
+    return 0;
+}
+
+int f_OkreslPlec(string v_name, char v_gender)
+{
+	int v_plecslownik = 0;
+	f_SlownikImiePlecCzyIstnieje();
+	if (f_SlownikImiePlecIleLini() != 0)
+	{
+		v_gender = f_CzyImieWSlownikuImiePlec(v_name, v_gender, 0);
+	};
+	if ((f_SlownikImiePlecIleLini() == 0 || v_gender == 'B') && v_plecslownik == 0)
 	{
 		v_gender = f_SprawdzPlec(v_name);
 		v_gender = f_PotwierdzPlec(v_name, v_gender);
-		if (liczba_wierszy == 0)
-		{
-			imie_plec << v_name << " " << v_gender;
-		}
-		else
-		{
-			imie_plec << endl << v_name << " " << v_gender;
-		};
+		f_ZapiszImiePlecDoSlownika(v_name, v_gender);
 	};
 	return v_gender;
 }
@@ -316,18 +361,42 @@ string f_Zodiak(int v_day, int v_mount)
 				if (v_day < 22) {return "Strzelec";}
 				else{return "Koziorozec";};
 				break;
-		}
+		};
 }
 /*znak zodiaku*/
+/*link do horoskopu*/
+string f_HoroskopLink (string v_zodiac)
+{
+	string url = "https://www.horoskop360.pl/horoskop-";
+	string url_part2 = v_zodiac;
+	url_part2[0] = tolower(url_part2[0]);
+	return url + url_part2;
+}
 
+int f_OtworzLinkHoroskop (string v_zodiac)
+{
+	string v_url;
+	v_url = f_HoroskopLink(v_zodiac);
+	ShellExecuteA(NULL, "open", v_url.c_str(), NULL, NULL, SW_SHOWNORMAL);
+	return 0;
+}
+/*link do horoskopu*/
+/*przeliczanie daty na kalendarz julianski*/
+double f_NaKalendarzJulianski(int v_day, int v_mount, int v_year)
+{
+	return (1729279.5 + 367 * v_year + floor(275 * v_mount / 9) - floor(7 * (4716 + v_year + floor((v_mount + 9) / 12)) / 4) + v_day) + 38 - floor(3 * (floor((4716 + v_year + floor((v_mount + 9) / 12) + 83) / 100) + 1) /4);
+}
+/*przeliczanie daty na kalendarz julianski*/
+/*wyznaczanie fazy ksiezyca w dniu urodzin*/
+/*wyznaczanie fazy ksiezyca w dniu urodzin*/
 //-------------------------------------------------------------------------------------
-int f_PodajDane ()
+void f_PodajDane ()
 {
 	int v_day, v_mount, v_year;
 	bool v_czyPoprawneDane = false;
 	string v_name, v_dzienUrodzin, v_zodiac;
 	char v_gender;
-
+		
 	do
 	{ 	cin.clear();
 		cin.sync();
@@ -367,32 +436,67 @@ int f_PodajDane ()
 		cin.sync();
 		cout<<"Podaj imie" <<endl;
 		cin>>v_name;
-		v_czyPoprawneDane = f_CzyPoprawneImie( v_name) ;	//tu powinno byc wywolanie funkcji do walidacji imienia czy np. user nie wpisal 1234... pamietaj ze jest cos takiego jak zakres ... (w przypadku skracania linkow bylo to uzywane.)
-		//dodalbym jeszcze initcap-a niezaleznie od tego co user wpisal.
+		v_czyPoprawneDane = f_CzyPoprawneImie( v_name) ;	//wywolanie funkcji do walidacji imienia czy np. user nie wpisal 1234...
 	} while (v_czyPoprawneDane== false);
-
+	v_name = f_ImieInitCap(v_name);							//initcap - niezaleznie od tego co user wpisal.
 	v_dzienUrodzin = f_OdgadnijDzienUrodzin(v_day, v_mount, v_year);
 	v_gender = f_OkreslPlec(v_name, v_gender);
 	v_zodiac = f_Zodiak(v_day, v_mount);
 
+	pFunboy = &Funboy;
+	pFunboy->imie=v_name;
+	pFunboy->rok_urodzenia=v_year;
+	pFunboy->miesiac_urodzenia=v_mount;
+	pFunboy->dzien_urodzenia=v_day;
+	pFunboy->nazwa_dnia_urodzenia=v_dzienUrodzin;
+	pFunboy->znak_zodiaku=v_zodiac;
+	pFunboy->plec=v_gender;
+	pFunboy->horoskop_link=f_HoroskopLink(v_zodiac);
+	
 	cin.clear();
 	cin.sync();
 	system("cls");
-	cout << "Czesc "<< v_name <<". "<<endl;
-	cout << "Data Twoich narodzin to: " <<v_day<<"/"<<v_mount<<"/"<<v_year<<endl;
-	cout << "Dzien twoich urodzin to: " << v_dzienUrodzin <<endl;
+	cout << "Czesc "<< pFunboy->imie <<". "<<endl;
+	cout << "Data Twoich narodzin to: " <<pFunboy->dzien_urodzenia<<"/"<<pFunboy->miesiac_urodzenia<<"/"<<pFunboy->rok_urodzenia<<endl;
+	cout << "Dzien twoich urodzin to: " << pFunboy->nazwa_dnia_urodzenia <<endl;
 	cout << "Twoja plec to: ";
-	if(v_gender == 'K'){cout << "Kobieta";} else {cout << "Mezczyzna";};
+	if(pFunboy->plec == 'K'){cout << "Kobieta";} else {cout << "Mezczyzna";};
 	cout << endl;
-	cout << "Twoj znak zodiaku to: " << v_zodiac << endl;
+	cout << "Twoj znak zodiaku to: " << pFunboy->znak_zodiaku << endl;
+	cout << "Link do Twojego horoskopu: " << f_HoroskopLink(v_zodiac) << " otworzy sie w przegladarce."<< endl;
+	cout << "Press any key to continue... " <<endl;
+	getch();
+	f_OtworzLinkHoroskop(v_zodiac);
 
 	cout << "Press any key to continue... " <<endl;
 	getch();
 }
 
+//-------------------------------------------------------------------------------------
+void f_Zapisz_do_pliku ()
+{
+    fstream plik;
+	pFunboy = &Funboy;
+    plik.open( "zodiak.txt", ios::out | ios::app );
+		plik<<pFunboy->imie<<';';
+		plik<<pFunboy->rok_urodzenia<<';';
+		plik<<pFunboy->miesiac_urodzenia<<';';
+		plik<<pFunboy->dzien_urodzenia<<';';
+		plik<<pFunboy->nazwa_dnia_urodzenia<<';';
+		plik<<pFunboy->znak_zodiaku<<';';
+		plik<<pFunboy->plec<<';';
+		plik<<pFunboy->horoskop_link<< endl;
+        plik.flush();
+    plik.close();
+}
+
 int main()
 {	//srand(time ( 0 ) );
+	
+	Cechy *pFunboy; //deklaracja wskaznika do obiektu
 	char v_znak;
+	pFunboy = &Funboy;
+	
 	do
 	{
 		cin.clear();
@@ -448,6 +552,22 @@ int main()
 		{
 			case '1':
 				f_PodajDane();
+				f_Zapisz_do_pliku();
+				
+				cin.clear();
+				cin.sync();
+				system("cls");
+				//
+					cout<<pFunboy->imie<< endl;
+					cout<<pFunboy->rok_urodzenia<< endl;
+					cout<<pFunboy->miesiac_urodzenia<< endl;
+					cout<<pFunboy->dzien_urodzenia<< endl;
+					cout<<pFunboy->nazwa_dnia_urodzenia<< endl;
+					cout<<pFunboy->znak_zodiaku<< endl;
+					cout<<pFunboy->plec<< endl;
+					cout<<pFunboy->horoskop_link<< endl;
+				//
+				getch();		
 				break;
 			case '2':
 				//f_znajdz_url();
