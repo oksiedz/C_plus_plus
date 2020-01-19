@@ -21,6 +21,7 @@ class Cechy
 	string znak_zodiaku;
 	char plec;
 	string horoskop_link;
+	string faza_ksiezyca;
 };
 
 Cechy Funboy; //obiekt Funboy opisany przez klase Cechy
@@ -274,15 +275,163 @@ int f_OtworzLinkHoroskop (string v_zodiac)
 	return 0;
 }
 /*link do horoskopu*/
-/*przeliczanie daty na kalendarz julianski*/
-double f_NaKalendarzJulianski(int v_day, int v_month, int v_year)
+/*wyznaczanie fazy ksiezyca w dniu urodzin*/
+double f_FazaKsiezycRang(float value)
 {
-	return (1729279.5 + 367 * v_year + floor(275 * v_month / 9) - floor(7 * (4716 + v_year + floor((v_month + 9) / 12)) / 4) + v_day) + 38 - floor(3 * (floor((4716 + v_year + floor((v_month + 9) / 12) + 83) / 100) + 1) /4);
+	int value_1;
+	value_1 = 360 * (value / 360 - floor(value / 360));
+	if (value_1 < 0)
+	{
+		value_1 = value_1 + 360;
+	};
+	return value_1;
 }
-/*przeliczanie daty na kalendarz julianski*/
-/*wyznaczanie fazy ksiezyca w dniu urodzin*/
-/*wyznaczanie fazy ksiezyca w dniu urodzin*/
-//-------------------------------------------------------------------------------------
+
+int f_PrzeksztalcMiesiac (int v_month)
+{
+	if (v_month < 2)
+	{
+		return v_month;
+	}
+	else
+	{
+		return v_month + 12;
+	};
+}
+
+int f_PrzeksztalcRok (int v_month, int v_year)
+{
+	if (v_month < 2)
+	{
+		return v_year;
+	}
+	else
+	{
+		return v_year - 1;
+	};
+}
+
+float f_FazaKsiezycaPodfunkcja1(int year, int month, int day)
+{
+	return floor(365.25 * (year + 4716)) + floor(30.6001 * (month + 1)) + day + (2 - floor(year / 100) + floor(floor(year / 100) / 4)) - 1524.5;
+}
+
+float f_FazaKsiezycaPodfunkcja2(float value)
+{
+	return (value - 2451545) / 36525;
+}
+
+float f_FazaKsiezycaPodfunkcja3(float value)
+{
+	return (value + (0.5 / 24) - 2451545) / 36525;
+}
+
+float f_FazaKsiezycaPodfunkcja4(float value)
+{
+	return f_FazaKsiezycRang(297.8502042 + 445267.1115168 * value - (0.00163 * value * value) + value * value * value / 545868 - value * value * value * value / 113065000);
+}
+
+float f_FazaKsiezycaPodfunkcja5(float value)
+{
+	return f_FazaKsiezycRang(357.5291092 + 35999.0502909 * value - 0.0001536 * value * value + value * value * value / 24490000);
+}
+
+float f_FazaKsiezycaPodfunkcja6(float value)
+{
+	return f_FazaKsiezycRang(134.9634114 + 477198.8676313 * value - 0.008997 * value * value + value * value * value / 69699 - value * value * value * value / 14712000);
+}
+
+float f_FazaKsiezycaPodfunkcja7(float value1, float value2, float value3)
+{
+	return 180 - value1 - (6.289 * sin((3.1415926535 / 180) * ((value2)))) + (2.1 * sin((3.1415926535 / 180) * ((value3)))) - (1.274 * sin((3.1415926535 / 180) * (((2 * value1) - value2)))) - (0.658 * sin((3.1415926535 / 180) * ((2 * value1)))) - (0.214 * sin((3.1415926535 / 180) * ((2 * value2)))) - (0.11 * sin((3.1415926535 / 180) * ((value1))));
+}
+
+float f_FazaKsiezycaPodfunkcja8(float value)
+{
+	return (1 + cos((3.1415926535 / 180) * (value))) / 2;
+}
+
+float f_FazaKsiezycaPodfunkcja9(float value1, float value2)
+{
+	if ((value2 - value1) < 0)
+	{
+		return -1 * value1;
+	}
+	else
+	{
+		return value1;
+	}
+}
+
+float f_FazaKsiezycaPodfunkcja10(float value)
+{
+	return 100 * value;
+}
+
+float f_Fazaksiezyca(int v_year, int v_month, int v_day)
+{
+	int month, year, day;
+	float jdp, tzd, tzd2, elm, elm2, ams, ams2, aml, aml2, asd, asd2, phi1, phi2;
+	day = v_day;
+	month = f_PrzeksztalcMiesiac(v_month);
+	year = f_PrzeksztalcRok(v_month, v_year);
+	jdp = f_FazaKsiezycaPodfunkcja1(year, month, day);
+	tzd = f_FazaKsiezycaPodfunkcja2(jdp);
+	tzd2 = f_FazaKsiezycaPodfunkcja3(jdp);
+	elm = f_FazaKsiezycaPodfunkcja4(tzd);
+	elm2 = f_FazaKsiezycaPodfunkcja4(tzd2);
+	ams = f_FazaKsiezycaPodfunkcja5(tzd);
+	ams2 = f_FazaKsiezycaPodfunkcja5(tzd2);
+	aml = f_FazaKsiezycaPodfunkcja6(tzd);
+	aml2 = f_FazaKsiezycaPodfunkcja6(tzd2);
+	asd = f_FazaKsiezycaPodfunkcja7(elm, aml, ams);
+	asd2 = f_FazaKsiezycaPodfunkcja7(elm2, aml2, ams2);
+	phi1 = f_FazaKsiezycaPodfunkcja8(asd);
+	phi2 = f_FazaKsiezycaPodfunkcja8(asd2);
+	cout << "Faza ksiezyca: " << f_FazaKsiezycaPodfunkcja10(f_FazaKsiezycaPodfunkcja9(phi1, phi2)) << endl;
+	return f_FazaKsiezycaPodfunkcja10(f_FazaKsiezycaPodfunkcja9(phi1, phi2));
+}
+
+string f_FazaKsiezycaSlownie(float faza_ksiezyca)
+{
+	if (faza_ksiezyca >= -5 && faza_ksiezyca <= 5)
+	{
+		return "Now";
+	}
+	else if (faza_ksiezyca > 5 && faza_ksiezyca < 45)
+	{
+		return "Rosnacy sierp";
+	}
+	else if (faza_ksiezyca >= 45 && faza_ksiezyca <= 55)
+	{
+		return "Pierwsza kwadra";
+	}
+	else if (faza_ksiezyca > 55 && faza_ksiezyca < 95)
+	{
+		return "Rosnacy garb";
+	}
+	else if (faza_ksiezyca >= 95 && faza_ksiezyca <= -95)
+	{
+		return "Pelnia";
+	}
+	else if (faza_ksiezyca > -95 && faza_ksiezyca < -55)
+	{
+		return "Zanikajacy garb";
+	}
+	else if (faza_ksiezyca >= -55 && faza_ksiezyca <= -45)
+	{
+		return "Trzecia kwadra";
+	}
+	else if (faza_ksiezyca > -45 && faza_ksiezyca < -5)
+	{
+		return "Zanikajacy sierp";
+	}
+	else
+	{
+		return "Nie mozna wyznaczyc fazy ksiezyca";
+	};
+}
+/*wyznaczanie fazy ksiezyca w dniu urodzin*///-------------------------------------------------------------------------------------
 void f_PodajDane ()
 {
 	int v_day, v_month, v_year;
@@ -345,6 +494,7 @@ void f_PodajDane ()
 	pFunboy->znak_zodiaku=v_zodiac;
 	pFunboy->plec=v_gender;
 	pFunboy->horoskop_link=f_HoroskopLink(v_zodiac);
+	pFunboy->faza_ksiezyca=f_FazaKsiezycaSlownie(f_Fazaksiezyca(pFunboy->rok_urodzenia, pFunboy->miesiac_urodzenia, pFunboy->dzien_urodzenia));
 
 	cin.clear();
 	cin.sync();
@@ -356,6 +506,7 @@ void f_PodajDane ()
 	if(pFunboy->plec == 'K'){cout << "Kobieta";} else {cout << "Mezczyzna";};
 	cout << endl;
 	cout << "Twoj znak zodiaku to: " << pFunboy->znak_zodiaku << endl;
+	cout << "W dniu Twoich urodzin byla nastepujaca faza ksiezyca: " << pFunboy->faza_ksiezyca << endl; 
 	cout << "Link do Twojego horoskopu: " << f_HoroskopLink(v_zodiac) << endl;
 	cout << "Kliknij dowolny przycisk, zeby otworzyc horoskop w przegladarce." << endl;
 	getch();
