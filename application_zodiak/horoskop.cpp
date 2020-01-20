@@ -50,7 +50,7 @@ int vl_length=0, vl_rok	= v_year;
 			getch();
 			return false;
 		}
-	else if (v_year == st.wYear ) 		//jesli podany rok jest rowny biezacemu
+	else if (v_year == st.wYear )		//jesli podany rok jest rowny biezacemu
 		{	cout<< "Jetes za mlody na korzystanie z komputera." << endl;
 			getch();
 			exit(0);
@@ -59,7 +59,7 @@ int vl_length=0, vl_rok	= v_year;
 	return true;
 }
 //-------------------------------------------------------------------------------------
-bool f_CzyJestMountUrodzenia ( int v_month  )
+bool f_CzyJestMountUrodzenia ( int v_month )
 {	cin.clear();
 	cin.sync();
 	if (v_month>12 || v_month<1)		//jesli podany miesiac nie istnieje
@@ -80,7 +80,7 @@ bool f_CzyJestDayUrodzenia ( int v_day, int v_month, int v_year )
 
 	cin.clear();
 	cin.sync();
-	
+
 	//jesli miesiac to luty
 	if (v_month==2 )
 	{	//okreslenie czy rok byl przestepny
@@ -91,7 +91,7 @@ bool f_CzyJestDayUrodzenia ( int v_day, int v_month, int v_year )
 
 		for( i=0; i < sizeof(vl_tab_28)/sizeof(int); i++)
 		{	if( vl_tab_28[i] == v_month && (v_day>0 && v_day<vl_max_day+1))
-				return true;	
+				return true;
 			else
 				cout<< "W roku "<<v_year<<" iloœæ dni w lutym wynosi³a: "<<vl_max_day<<endl;
 		}
@@ -627,7 +627,7 @@ int main()
 			case '1':
 				f_PodajDane();
 				f_Zapisz_do_pliku();
-				
+
 				cin.clear();
 				cin.sync();
 				system("cls");
