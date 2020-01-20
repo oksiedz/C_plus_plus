@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <ctime>
 #include <fstream>
 #include <string>
@@ -46,7 +46,7 @@ int vl_length=0, vl_rok	= v_year;
 	if (v_year		>	st.wYear 		//jesli podany rok jest wiekszy niz biezacy rok
 		|| st.wYear-150	>	v_year		//lub jesli biezacy rok - 150 lat jest wiekszy niz podany rok
 		|| vl_length	!=	4)			//lub ilosc cyfr w roku jest <> 4 
-		{	cout<< "Poda³eœ niew³aœciwy rok urodzenia. Spróbuj jeszcze raz." << endl;
+		{	cout<< "PodaÅ‚eÅ› niewÅ‚aÅ›ciwy rok urodzenia. SprÃ³buj jeszcze raz." << endl;
 			getch();
 			return false;
 		}
@@ -63,7 +63,7 @@ bool f_CzyJestMountUrodzenia ( int v_month )
 {	cin.clear();
 	cin.sync();
 	if (v_month>12 || v_month<1)		//jesli podany miesiac nie istnieje
-		{	cout<< "Poda³es niew³asciwy miesiœc urodzenia. Spróbuj jeszcze raz" << endl;
+		{	cout<< "PodaÅ‚es niewÅ‚asciwy miesiÅ›c urodzenia. SprÃ³buj jeszcze raz" << endl;
 			getch();
 			return false;
 		}
@@ -93,7 +93,7 @@ bool f_CzyJestDayUrodzenia ( int v_day, int v_month, int v_year )
 		{	if( vl_tab_28[i] == v_month && (v_day>0 && v_day<vl_max_day+1))
 				return true;
 			else
-				cout<< "W roku "<<v_year<<" iloœæ dni w lutym wynosi³a: "<<vl_max_day<<endl;
+				cout<< "W roku "<<v_year<<" iloÅ›Ä‡ dni w lutym wynosiÅ‚a: "<<vl_max_day<<endl;
 		}
 	}
 	else
@@ -119,7 +119,7 @@ void f_ZmienKolor(string value)
 	{
 		system("Color 0E");
 	}
-	else if (value == "Poniedzia³ek")
+	else if (value == "PoniedziaÅ‚ek")
 	{
 		system("Color 0A");
 	}
@@ -127,7 +127,7 @@ void f_ZmienKolor(string value)
 	{
 		system("Color 0B");
 	}
-	else if (value == "Œroda")
+	else if (value == "Åšroda")
 	{
 		system("Color 0C");
 	}
@@ -135,7 +135,7 @@ void f_ZmienKolor(string value)
 	{
 		system("Color 03");
 	}
-	else if (value == "Pi¹tek")
+	else if (value == "PiÄ…tek")
 	{
 		system("Color 04");
 	}
@@ -150,7 +150,7 @@ string f_OdgadnijDzienUrodzin ( int v_day, int v_month, int v_year )
 {
 	time_t czas;
 	struct tm * data;
-	const char * dzien_tygodnia[] = { "Niedziela", "Poniedzia³ek","Wtorek", "Œroda", "Czwartek", "Pi¹tek", "Sobota" };
+	const char * dzien_tygodnia[] = { "Niedziela", "PoniedziaÅ‚ek","Wtorek", "Åšroda", "Czwartek", "PiÄ…tek", "Sobota" };
 
 	time( & czas );
 	data = localtime( & czas );
@@ -187,7 +187,7 @@ bool f_CzyPoprawneImie ( string v_name )
 			return true;
 		}
 	else
-		{cout<< "Wpisane imie jest niepoprawne. Spróbuj jeszcze raz.";}
+		{cout<< "Wpisane imie jest niepoprawne. SprÃ³buj jeszcze raz.";}
 return false;
 }
 //-------------------------------------------------------------------------------------
@@ -203,7 +203,7 @@ return lv_name;
 char f_SprawdzPlec (string v_name)
 {
 	const string v_imiemeskie[] = {"Barnaba", "Bonawentura", "Jarema", "Jona", "Kosma", "Dyzma"};
-	const string v_imiezenskie[] = {"Beatrycze", "D¿anan", "Mariam", "Miriam", "Megi", "Noemi", "Rut", "Szarlin"};
+	const string v_imiezenskie[] = {"Beatrycze", "DÅ¼anan", "Mariam", "Miriam", "Megi", "Noemi", "Rut", "Szarlin"};
 	int v_nietypoweimie = 0;
 	for (int i = 0; i < 6; i++)
 	{
@@ -244,7 +244,7 @@ string f_PlecSlownie(char v_gender)
 	}
 	else
 	{
-		return "Mê¿czyna";
+		return "MÄ™Å¼czyna";
 	}
 }
 /*wyznaczanie plci*/
@@ -254,7 +254,7 @@ string f_Zodiak(int v_day, int v_month)
 	switch (v_month)
 		{
 			case 1:
-				if (v_day < 20) {return "Kozioro¿ec";}
+				if (v_day < 20) {return "KozioroÅ¼ec";}
 				else{return "Wodnik";};
 				break;
 			case 2:
@@ -271,10 +271,10 @@ string f_Zodiak(int v_day, int v_month)
 				break;
 			case 5:
 				if (v_day < 23) {return "Byk";}
-				else{return "BliŸniêta";};
+				else{return "BliÅºniÄ™ta";};
 				break;
 			case 6:
-				if (v_day < 22) {return "BliŸniêta";}
+				if (v_day < 22) {return "BliÅºniÄ™ta";}
 				else{return "Rak";};
 				break;
 			case 7:
@@ -299,7 +299,7 @@ string f_Zodiak(int v_day, int v_month)
 				break;
 			case 12:
 				if (v_day < 22) {return "Strzelec";}
-				else{return "Kozioro¿ec";};
+				else{return "KozioroÅ¼ec";};
 				break;
 		};
 }
@@ -442,11 +442,11 @@ string f_FazaKsiezycaSlownie(float faza_ksiezyca)
 {
 	if (faza_ksiezyca >= -5 && faza_ksiezyca <= 5)
 	{
-		return "Nów";
+		return "NÃ³w";
 	}
 	else if (faza_ksiezyca > 5 && faza_ksiezyca < 45)
 	{
-		return "Rosn¹cy sierp";
+		return "RosnÄ…cy sierp";
 	}
 	else if (faza_ksiezyca >= 45 && faza_ksiezyca <= 55)
 	{
@@ -454,15 +454,15 @@ string f_FazaKsiezycaSlownie(float faza_ksiezyca)
 	}
 	else if (faza_ksiezyca > 55 && faza_ksiezyca < 95)
 	{
-		return "Rosn¹cy garb";
+		return "RosnÄ…cy garb";
 	}
 	else if (faza_ksiezyca >= 95 && faza_ksiezyca <= -95)
 	{
-		return "Pe³nia";
+		return "PeÅ‚nia";
 	}
 	else if (faza_ksiezyca > -95 && faza_ksiezyca < -55)
 	{
-		return "Zanikaj¹cy garb";
+		return "ZanikajÄ…cy garb";
 	}
 	else if (faza_ksiezyca >= -55 && faza_ksiezyca <= -45)
 	{
@@ -470,11 +470,11 @@ string f_FazaKsiezycaSlownie(float faza_ksiezyca)
 	}
 	else if (faza_ksiezyca > -45 && faza_ksiezyca < -5)
 	{
-		return "Zanikaj¹cy sierp";
+		return "ZanikajÄ…cy sierp";
 	}
 	else
 	{
-		return "Nie mozna wyznaczyæ fazy ksiê¿yca";
+		return "Nie mozna wyznaczyÄ‡ fazy ksiÄ™Å¼yca";
 	};
 }
 /*wyznaczanie fazy ksiezyca w dniu urodzin*///-------------------------------------------------------------------------------------
@@ -498,7 +498,7 @@ void f_PodajDane ()
 	do
 	{ 	cin.clear();
 		cin.sync();
-		cout<<"podaj miesi¹c urodzenia" <<endl;
+		cout<<"podaj miesiÄ…c urodzenia" <<endl;
 		cin>>v_month;
 		v_czyPoprawneDane = f_CzyJestMountUrodzenia( v_month );
 	} while (v_czyPoprawneDane == false);
@@ -512,7 +512,7 @@ void f_PodajDane ()
 	do
 	{	cin.clear();
 		cin.sync();
-		cout<<"podaj dzieñ urodzenia" <<endl;
+		cout<<"podaj dzieÅ„ urodzenia" <<endl;
 		cin>>v_day;
 		v_czyPoprawneDane = f_CzyJestDayUrodzenia( v_day, v_month, v_year);
 		//cout << "v_czyDay: "<<v_czyDay << endl;
@@ -522,7 +522,7 @@ void f_PodajDane ()
 	do
 	{	cin.clear();
 		cin.sync();
-		cout<<"Podaj imiê" <<endl;
+		cout<<"Podaj imiÄ™" <<endl;
 		cin>>v_name;
 		v_czyPoprawneDane = f_CzyPoprawneImie( v_name) ;	//wywolanie funkcji do walidacji imienia czy np. user nie wpisal 1234...
 	} while (v_czyPoprawneDane== false);
@@ -546,14 +546,14 @@ void f_PodajDane ()
 	cin.sync();
 	system("cls");
 	
-	cout << "Czeœæ "<< pFunboy->imie <<". "<<endl;
+	cout << "CzeÅ›Ä‡ "<< pFunboy->imie <<". "<<endl;
 	cout << "Data Twoich narodzin to: " <<pFunboy->dzien_urodzenia<<"/"<<pFunboy->miesiac_urodzenia<<"/"<<pFunboy->rok_urodzenia<<endl;
-	cout << "Dzieñ Twoich urodzin to: " << pFunboy->nazwa_dnia_urodzenia <<endl;
-	cout << "Twoja p³eæ to: " <<f_PlecSlownie(pFunboy->plec) << endl;
-	cout << "Twój znak zodiaku to: " << pFunboy->znak_zodiaku << endl;
-	cout << "W dniu Twoich urodzin by³a nastêpuj¹ca faza ksiê¿yca: " << pFunboy->faza_ksiezyca << endl; 
+	cout << "DzieÅ„ Twoich urodzin to: " << pFunboy->nazwa_dnia_urodzenia <<endl;
+	cout << "Twoja pÅ‚eÄ‡ to: " <<f_PlecSlownie(pFunboy->plec) << endl;
+	cout << "TwÃ³j znak zodiaku to: " << pFunboy->znak_zodiaku << endl;
+	cout << "W dniu Twoich urodzin byÅ‚a nastÄ™pujÄ…ca faza ksiÄ™Å¼yca: " << pFunboy->faza_ksiezyca << endl; 
 	cout << "Link do Twojego horoskopu: " << f_HoroskopLink(v_zodiac) << endl;
-	cout << "Kliknij dowolny przycisk, ¿eby otworzyæ horoskop w przegl¹darce." << endl;
+	cout << "Kliknij dowolny przycisk, Å¼eby otworzyÄ‡ horoskop w przeglÄ…darce." << endl;
 	getch();
 	f_OtworzLinkHoroskop(v_zodiac);
 
@@ -586,8 +586,8 @@ void f_OdczytPelnejBazy()
 	plik.open("zodiak.txt", ios::in);
 	plik.clear();
 	plik.seekg (0, ios::beg);
-	cout << "Poni¿ej znajduje sie wypis z pe³nej bazy danych." << endl;
-	cout << "W kolumnie po œrednikach znajduje siê: imiê, rok, miesi¹c i dzieñ urodzenia, nazwa dnia tygodnia z daty urodzenia, znak zodiaku, p³eæ, faza ksiê¿yca oraz link do horoskopu"<<endl;
+	cout << "PoniÅ¼ej znajduje sie wypis z peÅ‚nej bazy danych." << endl;
+	cout << "W kolumnie po Å›rednikach znajduje siÄ™: imiÄ™, rok, miesiÄ…c i dzieÅ„ urodzenia, nazwa dnia tygodnia z daty urodzenia, znak zodiaku, pÅ‚eÄ‡, faza ksiÄ™Å¼yca oraz link do horoskopu"<<endl;
 	string linia;
 	while (getline(plik, linia))
 		{
@@ -595,7 +595,7 @@ void f_OdczytPelnejBazy()
 		};
 	plik.flush();
 	plik.close();
-	cout << endl << "Naciœnij dowolny przycisk, ¿eby wróciæ do menu"<< endl;
+	cout << endl << "NaciÅ›nij dowolny przycisk, Å¼eby wrÃ³ciÄ‡ do menu"<< endl;
 	getch();
 }
 
@@ -613,21 +613,21 @@ int main()
 		system("cls");
 		cout <<"Program Horoskop."<< endl;
 		cout <<" "<< endl;
-		cout <<"Program stworzony na zaliczenie æwiczeñ z Podstaw Programowania."			<< endl;
-		cout <<"Funkcjonalnoœci programu:"													<< endl;
+		cout <<"Program stworzony na zaliczenie Ä‡wiczeÅ„ z Podstaw Programowania."			<< endl;
+		cout <<"FunkcjonalnoÅ›ci programu:"													<< endl;
 		cout <<"1. Podanie imienia i daty urodzenia"										<< endl;
-		cout <<"2. Okreœlenie dnia tygodnia na podstawie daty urodzenia"					<< endl;
-		cout <<"3. Zmiana koloru czcionki w zaleznoœci od dnia tygodnia z daty urodzenia"	<< endl;
+		cout <<"2. OkreÅ›lenie dnia tygodnia na podstawie daty urodzenia"					<< endl;
+		cout <<"3. Zmiana koloru czcionki w zaleznoÅ›ci od dnia tygodnia z daty urodzenia"	<< endl;
 		cout <<"4. Stworzenie/otwarcie bazy danych"											<< endl;
-		cout <<"5. Okreœlenie p³ci na podstawie imienia"									<< endl;
-		cout <<"6. Wyznaczenie wieku u¿ytkownika"											<< endl;
+		cout <<"5. OkreÅ›lenie pÅ‚ci na podstawie imienia"									<< endl;
+		cout <<"6. Wyznaczenie wieku uÅ¼ytkownika"											<< endl;
 		cout <<"7. Rozpoznanie znaku zodiaku"												<< endl;
-		cout <<"8. Zwrócenie horoskopu"														<< endl;
-		cout <<"9. Wyznaczenie fazy ksiê¿yca w dniu urodzin"								<< endl;
-		cout <<"10.Import danych do g³ównej bazy danych"									<< endl;
-		cout <<"11.Funkcja zwracajaca pe³n¹ zawartoœæ bazy danych"							<< endl;
+		cout <<"8. ZwrÃ³cenie horoskopu"														<< endl;
+		cout <<"9. Wyznaczenie fazy ksiÄ™Å¼yca w dniu urodzin"								<< endl;
+		cout <<"10.Import danych do gÅ‚Ã³wnej bazy danych"									<< endl;
+		cout <<"11.Funkcja zwracajaca peÅ‚nÄ… zawartoÅ›Ä‡ bazy danych"							<< endl;
 		cout <<"12.Agregaty na bazie danych"												<< endl<< endl;
-		cout <<"Aby rozpocz¹æ korzystanie z programu wciœnij 1, aby zakoñczyæ dzia³anie programu wciœnij W."<< endl << endl;
+		cout <<"Aby rozpoczÄ…Ä‡ korzystanie z programu wciÅ›nij 1, aby zakoÅ„czyÄ‡ dziaÅ‚anie programu wciÅ›nij W."<< endl << endl;
 		cout<<"Dokonaj wyboru :";
 
 		v_znak = getchar();
@@ -644,16 +644,16 @@ int main()
 		cin.sync();
 		system("cls");
 		cout <<"********************* MENU *********************"	<< endl;
-		cout << "1. Okreœlenie dnia tygodnia z daty urodzenia	"	<< endl;
-		cout << "   Okreœlenie p³ci na podstawie imienia		"	<< endl;
-		cout << "   Wyznaczenie wieku u¿ytkownika				"	<< endl;
+		cout << "1. OkreÅ›lenie dnia tygodnia z daty urodzenia	"	<< endl;
+		cout << "   OkreÅ›lenie pÅ‚ci na podstawie imienia		"	<< endl;
+		cout << "   Wyznaczenie wieku uÅ¼ytkownika				"	<< endl;
 		cout << "   Rozpoznanie znaku zodiaku					"	<< endl;
 		cout << "   Wyswietl horoskop							"	<< endl;
-		cout << "   Wyznaczenie fazy ksiê¿yca w dniu urodzin	"	<< endl;
-		cout << "2. Wyswietl historiê							"	<< endl;
+		cout << "   Wyznaczenie fazy ksiÄ™Å¼yca w dniu urodzin	"	<< endl;
+		cout << "2. Wyswietl historiÄ™							"	<< endl;
 		cout << "3. Dodaj dane z pliku							"	<< endl;
-		cout << "4. Poka¿ agregaty								"	<< endl;
-		cout << "W. Wyjœcie z programu							"	<< endl;
+		cout << "4. PokaÅ¼ agregaty								"	<< endl;
+		cout << "W. WyjÅ›cie z programu							"	<< endl;
 		cout<<"Wybieram : ";
 
 		v_znak = getchar();
