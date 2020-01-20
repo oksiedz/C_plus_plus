@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <ctime>
 #include <fstream>
 #include <string>
@@ -112,6 +112,39 @@ bool f_CzyJestDayUrodzenia ( int v_day, int v_month, int v_year )
 	}
 	return false;
 }
+//---------------------------------------------------------------
+void f_ZmienKolor(string value)
+{
+	if (value == "Niedziela")
+	{
+		system("Color 0E");
+	}
+	else if (value == "Poniedziałek")
+	{
+		system("Color 0A");
+	}
+	else if (value == "Wtorek")
+	{
+		system("Color 0B");
+	}
+	else if (value == "Środa")
+	{
+		system("Color 0C");
+	}
+	else if (value == "Czwartek")
+	{
+		system("Color 03");
+	}
+	else if (value == "Piątek")
+	{
+		system("Color 04");
+	}
+	else
+	{
+		system("Color 02");
+	};
+}
+
 //-------------------------------------------------------------------------------------
 string f_OdgadnijDzienUrodzin ( int v_day, int v_month, int v_year )
 {
@@ -126,6 +159,7 @@ string f_OdgadnijDzienUrodzin ( int v_day, int v_month, int v_year )
 	data->tm_mday = v_day;
 
 	mktime( data );
+	f_ZmienKolor(dzien_tygodnia[ data->tm_wday ]);
 	return dzien_tygodnia[ data->tm_wday ];
 }
 //-------------------------------------------------------------------------------------
@@ -511,6 +545,7 @@ void f_PodajDane ()
 	cin.clear();
 	cin.sync();
 	system("cls");
+	
 	cout << "Cześć "<< pFunboy->imie <<". "<<endl;
 	cout << "Data Twoich narodzin to: " <<pFunboy->dzien_urodzenia<<"/"<<pFunboy->miesiac_urodzenia<<"/"<<pFunboy->rok_urodzenia<<endl;
 	cout << "Dzień Twoich urodzin to: " << pFunboy->nazwa_dnia_urodzenia <<endl;
@@ -665,3 +700,4 @@ int main()
 	return 0;
 
 }
+
