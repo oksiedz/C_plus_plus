@@ -8,6 +8,8 @@
 #include <windows.h>
 #include <sstream>
 #include <cmath>
+#include <algorithm>
+
 
 using namespace std;
 
@@ -477,7 +479,142 @@ string f_FazaKsiezycaSlownie(float faza_ksiezyca)
 		return "Nie mozna wyznaczyć fazy księżyca";
 	};
 }
-/*wyznaczanie fazy ksiezyca w dniu urodzin*///-------------------------------------------------------------------------------------
+/*wyznaczanie fazy ksiezyca w dniu urodzin*/
+//-------------------------------------------------------------------------------------
+/*praca na agregatach*/
+long f_LiczbaWierszy()
+{
+	fstream plik;
+	plik.open("zodiak.txt", ios::in);
+	plik.clear();
+	plik.seekg (0, ios::beg);
+	int rows_number = 0;
+	string linefornumeration;
+	while (!plik.eof())
+	{
+		getline(plik, linefornumeration);
+		rows_number++;
+	};
+	plik.close();
+	return rows_number;
+}
+void f_AgregatyZBazy(int v_dimension)
+{
+	fstream plik;
+	plik.open("zodiak.txt", ios::in);
+	plik.clear();
+	plik.seekg (0, ios::beg);
+	string line, v_param[(f_LiczbaWierszy()-1)*9];
+	long i = 0, j = 0, k = 0;
+	while (getline(plik,line))
+	{
+		istringstream ss(line);
+		string token;
+
+		while (getline(ss, token, ';'))
+		{
+			v_param[i] = token;
+			i++;
+		};
+	};
+	string parameter[(f_LiczbaWierszy() - 1)];
+
+	//v_dimension to zmienna, która się ustawia prawidłowo w zależności od wymiaru - czyli np. jak imię to ma być zero, jak druga wartość to 1 etc.
+	v_dimension = v_dimension - 1;
+	//v_dimension to zmienna, która się ustawia prawidłowo w zależności od wymiaru - czyli np. jak imię to ma być zero, jak druga wartość to 1 etc.
+	for (long i = v_dimension; i < (f_LiczbaWierszy() - 1) * 9; i = i + 9)
+	{
+		parameter[j] = v_param[i];
+		j = j + 1;
+	};
+	sort(parameter, parameter + j);
+
+	string wymiar[j];
+	long liczebnosc[j];
+	for (long i = 0; i < j; i++)
+	{
+		if (parameter[i] == "")
+		{
+			break;
+		}
+		if (i == 0)
+		{
+			wymiar[k] = parameter[i];
+			liczebnosc[k] = 1;
+		}
+		if (i != 0)
+		{
+			if (wymiar[k] == parameter[i])
+			{
+				liczebnosc[k] = liczebnosc[k] + 1;
+			}
+			else
+			{
+				wymiar[k+1] = parameter[i];
+				liczebnosc[k+1] = 1;
+				k = k + 1;
+			};
+		}
+	}
+
+	cout << "Aggregat po wymiarze: " << endl;
+	for (long i = 0; i <= k; i++)
+	{
+		cout << wymiar[i] << "	" << liczebnosc[i] << endl;
+	};
+}
+
+void f_ObslugaAgregatow()
+{
+	int v_dimension;
+	int v_loopstop = 0;
+	do
+	{
+		if (f_LiczbaWierszy() > 0)
+		{
+			cin.clear();
+			cin.sync();
+			system("cls");
+			cout << "Wybierz po jakiej zmiennej chciałbyś pogrupować wyniki:" << endl;
+			cout << "1. Po imieniu;" << endl;
+			cout << "2. Po roku urodzenia;" << endl;
+			cout << "3. Po miesiącu urodzenia;" << endl;
+			cout << "4. Po dniu urodzenia;" << endl;
+			cout << "5. Po nazwie dnia tygodnia z daty urodzenia;" << endl;
+			cout << "6. Po znaku zodiaku;" << endl;
+			cout << "7. Po płci;" << endl;
+			cout << "8. Po fazie księżyca." << endl;
+			cout << "9. Powrót do poprzedniego menu" << endl;
+			cin >> v_dimension;
+			if (v_dimension == 1 || v_dimension == 2 || v_dimension == 3 || v_dimension == 4 || v_dimension == 5 || v_dimension == 6 || v_dimension == 7 || v_dimension == 8)
+			{
+				f_AgregatyZBazy(v_dimension);
+				v_loopstop = 1;
+			}
+			else if (v_dimension == 9)
+			{
+				v_loopstop = 1;
+				break;
+			}
+			else 
+			{
+				cout << "Wybierz wymiar z listy." << endl;
+			}
+			cout << "Naciśnij dowolny przycisk."<< endl;
+			getch();
+		}
+		else
+		{
+			cout << "Pusty plik z bazą. Naciśnij dowolny przycisk." << endl;
+			v_loopstop = 1;
+			getch();
+			break;
+		}
+	} while (v_loopstop = 1);
+}
+/*praca na agregatach*/
+//-------------------------------------------------------------------------------------
+
 void f_PodajDane ()
 {
 	int v_day, v_month, v_year;
@@ -575,7 +712,7 @@ void f_Zapisz_do_pliku ()
 		plik<<pFunboy->znak_zodiaku<<';';
 		plik<<pFunboy->plec<<';';
 		plik<<pFunboy->faza_ksiezyca<<';';
-		plik<<pFunboy->horoskop_link<<endl;
+		plik<<pFunboy->horoskop_link<<';'<<endl;
 		plik.flush();
 	plik.close();
 }
@@ -685,7 +822,7 @@ int main()
 				//Dodaj dane z pliku
 				break;
 			case '4':
-				//Wyswietl agregaty
+				f_ObslugaAgregatow();
 				break;
 			case 'W':
 				exit(0);
@@ -700,4 +837,3 @@ int main()
 	return 0;
 
 }
-
