@@ -652,6 +652,7 @@ void f_ZapiszTabliceDoPliku ()
 				plik<<tFunboy[i].nazwa_dnia_urodzenia<<';';
 				plik<<tFunboy[i].znak_zodiaku<<';';
 				plik<<tFunboy[i].plec<<';';
+				plik<<tFunboy[i].faza_ksiezyca<<';';
 				plik<<tFunboy[i].horoskop_link<<';'<<endl;
 			}
 		}	
