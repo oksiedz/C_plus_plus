@@ -459,7 +459,7 @@ float f_Fazaksiezyca(int v_year, int v_month, int v_day)
 	asd2 = f_FazaKsiezycaPodfunkcja7(elm2, aml2, ams2);
 	phi1 = f_FazaKsiezycaPodfunkcja8(asd);
 	phi2 = f_FazaKsiezycaPodfunkcja8(asd2);
-	cout << "Faza ksiezyca: " << f_FazaKsiezycaPodfunkcja10(f_FazaKsiezycaPodfunkcja9(phi1, phi2)) << endl;
+	//cout << "Faza ksiezyca: " << f_FazaKsiezycaPodfunkcja10(f_FazaKsiezycaPodfunkcja9(phi1, phi2)) << endl;
 	return f_FazaKsiezycaPodfunkcja10(f_FazaKsiezycaPodfunkcja9(phi1, phi2));
 }
 
@@ -652,8 +652,8 @@ void f_ZapiszTabliceDoPliku ()
 				plik<<tFunboy[i].nazwa_dnia_urodzenia<<';';
 				plik<<tFunboy[i].znak_zodiaku<<';';
 				plik<<tFunboy[i].plec<<';';
-				plik<<tFunboy[i].faza_ksiezyca<<';';
-				plik<<tFunboy[i].horoskop_link<<';'<<endl;
+				plik<<tFunboy[i].horoskop_link<<';';
+				plik<<tFunboy[i].faza_ksiezyca<<';'<<endl;
 			}
 		}	
 			plik.flush();
@@ -809,6 +809,7 @@ bool f_Wytnij_Zapisz(int vl_lp, string vl_linia)
 		oFunboy.znak_zodiaku=vl_zodiac;
 		oFunboy.plec=vl_gender;
 		oFunboy.horoskop_link=f_HoroskopLink(vl_zodiac);
+		oFunboy.faza_ksiezyca=f_FazaKsiezycaSlownie(f_Fazaksiezyca(oFunboy.rok_urodzenia, oFunboy.miesiac_urodzenia, oFunboy.dzien_urodzenia));
 
 		ptFunboy[vl_lp]=oFunboy;
 		//cout<<ptFunboy[vl_lp].imie<<";"<<ptFunboy[vl_lp].znak_zodiaku<<endl;
@@ -874,6 +875,7 @@ bool f_Import_z_pliku ()
 							tFunboy[i].nazwa_dnia_urodzenia="";
 							tFunboy[i].znak_zodiaku="";
 							tFunboy[i].horoskop_link="";
+							tFunboy[i].faza_ksiezyca="";
 						}
 					}
 				}
@@ -1016,5 +1018,4 @@ int main()
 	} while (v_znak!='W');
 
 	return 0;
-
 }
