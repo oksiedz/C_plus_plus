@@ -26,11 +26,11 @@ class Cechy
 	string faza_ksiezyca;
 };
 
-Cechy Funboy; 				//Tworzymy dynamiczna tablice obiektow
-Cechy tFunboy[10];			// Tworzymy tablice obiektow
-Cechy oFunboy; 				//obiekt oFunboy opisany przez klase Cechy
-Cechy *pFunboy; 			//deklaracja wskaznika do obiektu
-Cechy *ptFunboy = &tFunboy[0];		//przypisanie wska?nikowi wartosci
+Cechy Funboy; 					//Tworzymy dynamiczna tablice obiektow
+Cechy tFunboy[10];				// Tworzymy tablice obiektow
+Cechy oFunboy; 					//obiekt oFunboy opisany przez klase Cechy
+Cechy *pFunboy; 				//deklaracja wskaznika do obiektu
+Cechy *ptFunboy = &tFunboy[0];	//przypisanie wskaznikowi wartosci
 
 //-------------------------------------------------------------------------------------
 bool f_CzyJestYearUrodzenia ( int v_year )
@@ -132,7 +132,7 @@ void f_ZmienKolor(string value)
 	{
 		system("Color 0B");
 	}
-	else if (value == "Sroda")
+	else if (value == "Środa")
 	{
 		system("Color 0C");
 	}
@@ -171,7 +171,7 @@ string f_OdgadnijDzienUrodzin ( int v_day, int v_month, int v_year )
 bool f_CzyPoprawneImie ( string v_name )
 {
 	int vl_NameLength, i, j, vl_ZnalezionaLiterka=0;
-	//char tl_ZbiorZnakow[88]={"ABCDEFGHIJKLMNOPQRSTUVWXYZ???????abcdefghijklmnopqrstuvwxyz??????"};
+	//char tl_ZbiorZnakow[88]={"ABCDEFGHIJKLMNOPQRSTUVWXYZĄĆĘŁŃÓŚŻŹabcdefghijklmnopqrstuvwxyząćęłńóśżź"};
 	string v_szukanyZnak="0123456789!@#$%^&*()_+={}[]:\";'<>,.?/|\'\\";
 	size_t znalezionaPozycja = v_name.find( v_szukanyZnak );
 	if( znalezionaPozycja != std::string::npos )
@@ -182,8 +182,8 @@ return true;
 }
 //-------------------------------------------------------------------------------------
 string f_ImieInitCap ( string v_name )
-{	string T_male="??????";
-	string T_duze="???????";
+{	string T_male="ąęśżźćółń";
+	string T_duze="ĄĘŚŻŹĆÓŁŃ";
 	string lv_name = v_name, lv_DuzaLiterka;
 	int lv_polozenie=0;
 	
@@ -499,7 +499,7 @@ string f_FazaKsiezycaSlownie(float faza_ksiezyca)
 	}
 	else
 	{
-		return "Nie mozna wyznaczyć fazy ksiżyca";
+		return "Nie mozna wyznaczyć fazy księżyca";
 	};
 }
 /*wyznaczanie fazy ksiezyca w dniu urodzin*/
@@ -542,9 +542,9 @@ void f_AgregatyZBazy(int v_dimension)
 	};
 	string parameter[(f_LiczbaWierszy() - 1)];
 
-	//v_dimension to zmienna, kt?ra si? ustawia prawid?owo w zale?no?ci od wymiaru - czyli np. jak imi? to ma by? zero, jak druga warto?? to 1 etc.
+	//v_dimension to zmienna, która się ustawia prawidłowo w zależności od wymiaru - czyli np. jak imię to ma być zero, jak druga wartość to 1 etc.
 	v_dimension = v_dimension - 1;
-	//v_dimension to zmienna, kt?ra si? ustawia prawid?owo w zale?no?ci od wymiaru - czyli np. jak imi? to ma by? zero, jak druga warto?? to 1 etc.
+	//v_dimension to zmienna, która się ustawia prawidłowo w zależności od wymiaru - czyli np. jak imię to ma być zero, jak druga wartość to 1 etc.
 	for (long i = v_dimension; i < (f_LiczbaWierszy() - 1) * 9; i = i + 9)
 	{
 		parameter[j] = v_param[i];
@@ -628,7 +628,7 @@ void f_ObslugaAgregatow()
 		}
 		else
 		{
-			cout << "Pusty plik z bazą. Naci?nij dowolny przycisk." << endl;
+			cout << "Pusty plik z bazą. Naciśnij dowolny przycisk." << endl;
 			v_loopstop = 1;
 			getch();
 			break;
@@ -724,14 +724,14 @@ void f_PodajDane ()
 	oFunboy.horoskop_link=f_HoroskopLink(v_zodiac);
 	oFunboy.faza_ksiezyca=f_FazaKsiezycaSlownie(f_Fazaksiezyca(oFunboy.rok_urodzenia, oFunboy.miesiac_urodzenia, oFunboy.dzien_urodzenia));
 	
-	ptFunboy[0]=oFunboy;		//przypisanie wska?nikowi wartosci
+	ptFunboy[0]=oFunboy;		//przypisanie wskaznikowi wartosci
 
 	cin.clear();
 	cin.sync();
 	system("cls");
 	cout << "Cześć "<< oFunboy.imie <<". "<<endl;
 	cout << "Data Twoich narodzin to: " << oFunboy.dzien_urodzenia<<"/"<<oFunboy.miesiac_urodzenia<<"/"<<oFunboy.rok_urodzenia<<endl;
-	cout << "Dzie? Twoich urodzin to: " << oFunboy.nazwa_dnia_urodzenia <<endl;
+	cout << "Dzień Twoich urodzin to: " << oFunboy.nazwa_dnia_urodzenia <<endl;
 	cout << "Twoja płeć to: "<< f_PlecSlownie(oFunboy.plec)<< endl;
 	cout << "Twój znak zodiaku to: " << oFunboy.znak_zodiaku << endl;
 	cout << "W dniu Twoich urodzin była następująca faza księyca: " << oFunboy.faza_ksiezyca << endl;
@@ -751,7 +751,7 @@ bool f_Wytnij_Zapisz(int vl_lp, string vl_linia)
 	char vl_separator=';', vl_separator1='-', vl_gender;
 	int t_seperatory[2], vl_licznikSeparatorow =0, i, v_day, v_month, v_year, vl_blad;
 	bool vl_CzyPoprawneDane;
-	//pFunboy = &oFunboy;			//przypisanie wska?nikowi wartosci
+	//pFunboy = &oFunboy;			//przypisanie wskaznikowi wartosci
 
 	for (i=0; i<vl_linia.length()-1; i++) //powtarzaj dopoki i<dlugosci linii
 	{	if (vl_linia[i]==vl_separator)
