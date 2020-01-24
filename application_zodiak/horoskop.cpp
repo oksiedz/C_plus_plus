@@ -640,7 +640,6 @@ void f_ZapiszTabliceDoPliku ()
 		}	
 			plik.flush();
 			plik.close();
-		cout<<"zapisalem do pliku"<<endl;
 }
 //-------------------------------------------------------------------------------------
 void f_PodajDane ()
@@ -690,7 +689,7 @@ void f_PodajDane ()
 		cout<<"Podaj imiê" <<endl;
 		cin>>v_name;
 		v_czyPoprawneDane = f_CzyPoprawneImie( v_name) ;	//wywolanie funkcji do walidacji imienia czy np. user nie wpisal 1234...
-		getch();
+		//getch();
 	} while (v_czyPoprawneDane== false);
 	v_name = f_ImieInitCap(v_name);							//initcap - niezaleznie od tego co user wpisal.
 	
@@ -865,7 +864,7 @@ bool f_Import_z_pliku ()
 	f_ZapiszTabliceDoPliku();
 //	delete tFunboy;
 	plik.close();
-    getch();
+//    getch();
 return true;
 }
 //-------------------------------------------------------------------------------------
@@ -893,7 +892,17 @@ void f_OdczytPelnejBazy()
 	cout << endl << "Naciœnij dowolny przycisk, ¿eby wróciæ do menu"<< endl;
 	getch();
 }
-
+//-------------------------------------------------------------------------------------
+void f_czyPlikIstnieje()
+{	
+	fstream plik;
+	plik.open ("zodiak.txt", ios::in);
+	if (plik.good()==false)
+		{	plik.open( "zodiak.txt", ios::out | ios::app );
+		}
+    plik.close();
+}
+//-------------------------------------------------------------------------------------
 int main()
 {	//srand(time ( 0 ) );
 	//setlocale(LC_CTYPE, "Polish");
@@ -904,7 +913,8 @@ int main()
 	char v_znak;
 	pFunboy = &oFunboy;
 	bool v_Import_z_pliku;
-
+	f_czyPlikIstnieje();
+	
 	do
 	{
 		cin.clear();
