@@ -22,8 +22,8 @@ class Cechy
 	string nazwa_dnia_urodzenia;
 	string znak_zodiaku;
 	char plec;
-	string horoskop_link;
 	string faza_ksiezyca;
+	string horoskop_link;
 };
 
 Cechy Funboy; 					//Tworzymy dynamiczna tablice obiektow
@@ -459,7 +459,7 @@ float f_Fazaksiezyca(int v_year, int v_month, int v_day)
 	asd2 = f_FazaKsiezycaPodfunkcja7(elm2, aml2, ams2);
 	phi1 = f_FazaKsiezycaPodfunkcja8(asd);
 	phi2 = f_FazaKsiezycaPodfunkcja8(asd2);
-	cout << "Faza ksiezyca: " << f_FazaKsiezycaPodfunkcja10(f_FazaKsiezycaPodfunkcja9(phi1, phi2)) << endl;
+	//cout << "Faza ksiezyca: " << f_FazaKsiezycaPodfunkcja10(f_FazaKsiezycaPodfunkcja9(phi1, phi2)) << endl;
 	return f_FazaKsiezycaPodfunkcja10(f_FazaKsiezycaPodfunkcja9(phi1, phi2));
 }
 
@@ -499,7 +499,7 @@ string f_FazaKsiezycaSlownie(float faza_ksiezyca)
 	}
 	else
 	{
-		return "Nie mozna wyznaczyć fazy księżyca";
+		return "Nie można wyznaczyć fazy księżyca";
 	};
 }
 /*wyznaczanie fazy ksiezyca w dniu urodzin*/
@@ -619,7 +619,7 @@ void f_ObslugaAgregatow()
 				v_loopstop = 1;
 				break;
 			}
-			else 
+			else
 			{
 				cout << "Wybierz wymiar z listy." << endl;
 			}
@@ -655,7 +655,7 @@ void f_ZapiszTabliceDoPliku ()
 				plik<<tFunboy[i].faza_ksiezyca<<';';
 				plik<<tFunboy[i].horoskop_link<<';'<<endl;
 			}
-		}	
+		}
 			plik.flush();
 			plik.close();
 }
@@ -710,7 +710,7 @@ void f_PodajDane ()
 		//getch();
 	} while (v_czyPoprawneDane== false);
 	v_name = f_ImieInitCap(v_name);							//initcap - niezaleznie od tego co user wpisal.
-	
+
 	v_dzienUrodzin = f_OdgadnijDzienUrodzin(v_day, v_month, v_year);
 	v_gender = f_SprawdzPlec(v_name);
 	v_zodiac = f_Zodiak(v_day, v_month);
@@ -722,9 +722,9 @@ void f_PodajDane ()
 	oFunboy.nazwa_dnia_urodzenia=v_dzienUrodzin;
 	oFunboy.znak_zodiaku=v_zodiac;
 	oFunboy.plec=v_gender;
-	oFunboy.horoskop_link=f_HoroskopLink(v_zodiac);
 	oFunboy.faza_ksiezyca=f_FazaKsiezycaSlownie(f_Fazaksiezyca(oFunboy.rok_urodzenia, oFunboy.miesiac_urodzenia, oFunboy.dzien_urodzenia));
-	
+	oFunboy.horoskop_link=f_HoroskopLink(v_zodiac);
+
 	ptFunboy[0]=oFunboy;		//przypisanie wskaznikowi wartosci
 
 	cin.clear();
@@ -808,7 +808,9 @@ bool f_Wytnij_Zapisz(int vl_lp, string vl_linia)
 		oFunboy.nazwa_dnia_urodzenia=vl_dzienUrodzin;
 		oFunboy.znak_zodiaku=vl_zodiac;
 		oFunboy.plec=vl_gender;
+		oFunboy.faza_ksiezyca=f_FazaKsiezycaSlownie(f_Fazaksiezyca(oFunboy.rok_urodzenia, oFunboy.miesiac_urodzenia, oFunboy.dzien_urodzenia));
 		oFunboy.horoskop_link=f_HoroskopLink(vl_zodiac);
+
 
 		ptFunboy[vl_lp]=oFunboy;
 		//cout<<ptFunboy[vl_lp].imie<<";"<<ptFunboy[vl_lp].znak_zodiaku<<endl;
@@ -851,10 +853,10 @@ bool f_Import_z_pliku ()
 		return false;}
 
 	while(!plik.eof())
-		{	
+		{
 			getline(plik, vl_linia);
 			if (vl_linia.length()!=0)
-			{	
+			{
 				vl_CzyPoprawneDane = f_Wytnij_Zapisz(vl_Lp, vl_linia);
 				if (vl_CzyPoprawneDane==true)
 				{
@@ -873,6 +875,7 @@ bool f_Import_z_pliku ()
 							tFunboy[i].dzien_urodzenia=0;
 							tFunboy[i].nazwa_dnia_urodzenia="";
 							tFunboy[i].znak_zodiaku="";
+							tFunboy[i].faza_ksiezyca="";
 							tFunboy[i].horoskop_link="";
 						}
 					}
@@ -906,7 +909,7 @@ void f_OdczytPelnejBazy()
 	}
 	else
 		{	cout <<"Plik nie istnieje" <<endl;
-		}	
+		}
 	cout << endl << "Naciśnij dowolny przycisk, żeby wrócił do menu"<< endl;
 	getch();
 }
@@ -1016,5 +1019,4 @@ int main()
 	} while (v_znak!='W');
 
 	return 0;
-
 }
