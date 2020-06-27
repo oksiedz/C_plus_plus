@@ -27,7 +27,7 @@ void word_break()
 
 void led_off()
 {
-  digitalWrite(13, LOW);
+  digitalWrite(pin, LOW);
 }
 
 void dot()
