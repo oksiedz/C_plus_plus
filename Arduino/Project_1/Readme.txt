@@ -9,4 +9,4 @@ in row 23 rezystor 200
 in row 27 rezystor 200
 cable from row 27 to GND
 
-Project is presented: 
+Project is presented: https://www.youtube.com/watch?v=CEn6zlHeLd4&feature=youtu.be
