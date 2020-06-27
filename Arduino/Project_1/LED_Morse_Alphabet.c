@@ -52,23 +52,23 @@ void letter_t()
 void letter_o()
 {
   dash();
-  digit_break()
+  digit_break();
   dash();
-  digit_break()
+  digit_break();
   dash();
 }
 
 void letter_m()
 {
   dash();
-  digit_break()
+  digit_break();
   dash();
 }
 
 void letter_a()
 {
   dot();
-  digit_break()
+  digit_break();
   dash();
 }
 
