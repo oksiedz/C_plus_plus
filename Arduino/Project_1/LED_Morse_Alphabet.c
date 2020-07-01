@@ -27,7 +27,7 @@ void word_break()
 
 void led_off()
 {
-  digitalWrite(13, LOW);
+  digitalWrite(pin, LOW);
 }
 
 void dot()
@@ -44,100 +44,118 @@ void dash()
   led_off();
 }
 
-void letter_t()
+void which_break(int wordend)
 {
-  dash();
+  if (wordend == 1) {word_break();};
+  if (wordend == 0) {letter_break();};
 }
 
-void letter_o()
+void letter_t(int wordend)
 {
   dash();
-  digit_break()
-  dash();
-  digit_break()
-  dash();
+  which_break(wordend);
 }
 
-void letter_m()
+void letter_o(int wordend)
 {
   dash();
-  digit_break()
+  digit_break();
   dash();
+  digit_break();
+  dash();
+  which_break(wordend);
 }
 
-void letter_a()
+void letter_m(int wordend)
 {
-  dot();
-  digit_break()
   dash();
+  digit_break();
+  dash();
+  which_break(wordend);
 }
 
-void letter_s()
+void letter_a(int wordend)
 {
   dot();
   digit_break();
-  dot();
-  digit_break();
-  dot();
+  dash();
+  which_break(wordend);
 }
 
-void letter_z()
+void letter_s(int wordend)
 {
-  dash();
-  digit_break();
-  dash();
+  dot();
   digit_break();
   dot();
   digit_break();
   dot();
+  which_break(wordend);
 }
 
-void letter_j()
+void letter_z(int wordend)
 {
+  dash();
+  digit_break();
+  dash();
+  digit_break();
   dot();
   digit_break();
-  dash();
-  digit_break();
-  dash();
-  digit_break();
-  dash();
+  dot();
+  which_break(wordend);
 }
 
-void letter_n()
+void letter_j(int wordend)
+{
+  dot();
+  digit_break();
+  dash();
+  digit_break();
+  dash();
+  digit_break();
+  dash();
+  which_break(wordend);
+}
+
+void letter_n(int wordend)
 {
   dash();
   digit_break();
   dot();
+  which_break(wordend);
 }
 
-void letter_k()
-{
-  dash();
-  digit_break();
-  dot();
-  digit_break();
-  dash();
-}
-
-void letter_i()
-{
-  dot();
-  digit_break();
-  dot();
-}
-
-void letter_e()
-{
-  dot();
-}
-
-void letter_d()
+void letter_k(int wordend)
 {
   dash();
   digit_break();
   dot();
   digit_break();
+  dash();
+  which_break(wordend);
+}
+
+void letter_i(int wordend)
+{
   dot();
+  digit_break();
+  dot();
+  which_break(wordend);
+}
+
+void letter_e(int wordend)
+{
+  dot();
+  which_break(wordend);
+}
+
+void letter_d(int wordend)
+{
+  dash();
+  digit_break();
+  dot();
+  digit_break();
+  dot();
+  which_break(wordend);
 }
 
 
@@ -147,40 +165,23 @@ void loop()
   //Led will be enabled and disabled in a way that it will show: tomasz jan oksiedzki in morse alphabet
   //-/---/--/.-/.../--..//.---/.-/-.//---/-.-/.../.././-../--../-.-/.//
   word_break();
-  letter_t();
-  letter_break();
-  letter_o();
-  letter_break();
-  letter_m();
-  letter_break();
-  letter_a();
-  letter_break();
-  letter_s();
-  letter_break();
-  letter_z();
-  word_break();
-  letter_j();
-  letter_break();
-  letter_a();
-  letter_break();
-  letter_n();
-  word_break();
-  letter_o();
-  letter_break();
-  letter_k();
-  letter_break();
-  letter_s();
-  letter_break();
-  letter_i();
-  letter_break();
-  letter_e();
-  letter_break();
-  letter_d();
-  letter_break();
-  letter_z();
-  letter_break();
-  letter_k();
-  letter_break();
-  letter_i();
+  letter_t(0);
+  letter_o(0);
+  letter_m(0);
+  letter_a(0);
+  letter_s(0);
+  letter_z(1);
+  letter_j(0);
+  letter_a(0);
+  letter_n(1);
+  letter_o(0);
+  letter_k(0);
+  letter_s(0);
+  letter_i(0);
+  letter_e(0);
+  letter_d(0);
+  letter_z(0);
+  letter_k(0);
+  letter_i(1);
   word_break();
 }
